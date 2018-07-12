@@ -7,7 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.upgrad.models.Users;
+import org.upgrad.models.User;
 import org.upgrad.repositories.UserRepository;
 import org.upgrad.services.UserService;
 

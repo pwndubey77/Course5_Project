@@ -1,6 +1,6 @@
 package org.upgrad.services;
 
-import org.upgrad.models.Users;
+import org.upgrad.models.User;
 
 import java.util.Date;
 
