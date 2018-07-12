@@ -9,6 +9,7 @@ import org.upgrad.models.User;
 
 import javax.transaction.Transactional;
 import java.util.Date;
+import java.util.List;
 
 @Repository
 public interface QuestionRepository extends CrudRepository<Question, Integer> {
@@ -18,6 +19,10 @@ public interface QuestionRepository extends CrudRepository<Question, Integer> {
     @Query(nativeQuery = true,value="insert into question (id,content,DATE ,user_id) values (?1,?2,NOW(),?3)")
     void addQuestionValues(int id, String content, int user_id);
 
+    @Query(nativeQuery = true,value="select * from question where user_id=?1")
+    List<Question> readAllQuestionsByUser(int userId);
+
+    /*
     @Query(nativeQuery = true,value="select user_id from question where id=?1")
     User findUserByQuestionId(int id);
 
@@ -58,4 +63,5 @@ public interface QuestionRepository extends CrudRepository<Question, Integer> {
     @Modifying
     @Query(nativeQuery = true,value="delete from post where id=?1 ")
     void deletePostById(Long id);
+    */
 }

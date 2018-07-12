@@ -11,6 +11,8 @@ import org.upgrad.models.User;
 public interface QuestionService {
 
     void createQuestion(int id , String content , int userId);
+
+    List<Question> findAllByUserId(int userId);
     /*
     Iterable<Question> getAll();
     Question findQuestionById(int questionId);

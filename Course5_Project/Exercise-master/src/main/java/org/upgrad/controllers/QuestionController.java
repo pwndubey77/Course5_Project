@@ -43,11 +43,20 @@ public class QuestionController {
 
         }
     }
-/*
+
     @GetMapping("/api/question/all")
-    public Iterable<Question> getAllQuestions() {
-        return questionService.findAll();
+    public ResponseEntity<?> getAllQuestions(HttpSession session) {
+
+        if (session.getAttribute("currUser")==null) {
+            return new ResponseEntity<>("Please Login first to access this endpoint!", HttpStatus.UNAUTHORIZED);
+        }
+
+        else {
+            return new ResponseEntity<>(questionService.findAllByUserId (userService.getUserID ((String) session.getAttribute("currUser"))), HttpStatus.OK);
+        }
     }
-*/
+
+
+
 
 }

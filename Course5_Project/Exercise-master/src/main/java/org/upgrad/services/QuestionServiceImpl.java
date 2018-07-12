@@ -29,13 +29,13 @@ public class QuestionServiceImpl implements QuestionService {
 
         questionRepository.addQuestionValues(id,content,userId);
     }
-    /*
+
     @Override
-    public List<Question> findAll() {
-        return questionRepository.readAllQuestions();
+    public List<Question> findAllByUserId(int userId) {
+        return questionRepository.readAllQuestionsByUser(userId);
     }
 
-
+    /*
     @Override
     public Question findQuestionById(int questionid) {
         return questionRepository.readQuestion (questionid);
