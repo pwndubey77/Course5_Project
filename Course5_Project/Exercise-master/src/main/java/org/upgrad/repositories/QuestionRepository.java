@@ -20,11 +20,18 @@ public interface QuestionRepository extends CrudRepository<Question, Integer> {
     void addQuestionValues(int id, String content, int user_id);
 
     @Query(nativeQuery = true,value="select * from question where user_id=?1")
-    List<Question> readAllQuestionsByUser(int userId);
+    List<Question> getAllQuestionsByUserId(int userId);
+
+    @Query(nativeQuery = true,value="select user_id from question where id=?1")
+    int findUserByQuestionId(int questionId);
+
+    @Transactional
+    @Modifying
+    @Query(nativeQuery = true,value="delete from question where id=?1 ")
+    void deleteQuestionById(int id);
 
     /*
-    @Query(nativeQuery = true,value="select user_id from question where id=?1")
-    User findUserByQuestionId(int id);
+
 
     @Query(nativeQuery = true,value="select id from question where id=?1")
     Question findQuestionById(int id);

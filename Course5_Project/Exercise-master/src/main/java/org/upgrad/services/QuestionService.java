@@ -12,12 +12,17 @@ public interface QuestionService {
 
     void createQuestion(int id , String content , int userId);
 
-    List<Question> findAllByUserId(int userId);
+    List<Question> getAllQuestionsByUser(int userId);
+
+    int findUserByQuestionId(int questionId);
+
+    void deleteQuestionById(int questionId);
+
     /*
     Iterable<Question> getAll();
     Question findQuestionById(int questionId);
-    User findUserByQuestionId(int questionId);
-    void deleteQuestionById(int questionId);
+
+
 
     List<Question> findAll();
     //List<Question> firstThreeQuestions();

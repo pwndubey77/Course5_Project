@@ -31,8 +31,19 @@ public class QuestionServiceImpl implements QuestionService {
     }
 
     @Override
-    public List<Question> findAllByUserId(int userId) {
-        return questionRepository.readAllQuestionsByUser(userId);
+    public List<Question> getAllQuestionsByUser(int userId) {
+        return questionRepository.getAllQuestionsByUserId(userId);
+    }
+
+    @Override
+    public int findUserByQuestionId(int questionId){
+        return questionRepository.findUserByQuestionId(questionId);
+    }
+
+    @Override
+    public void deleteQuestionById(int questionId) {
+
+        questionRepository.deleteQuestionById(questionId);
     }
 
     /*
@@ -42,11 +53,7 @@ public class QuestionServiceImpl implements QuestionService {
     }
 
 
-    @Override
-    public void deleteQuestionById(int questionId) {
 
-        questionRepository.deleteQuestion(questionId);
-    }
 
     @Override
     public void addQuestionValues(int id,String body, int userId){ questionRepository.addQuestionValues(id,body,userId);}
@@ -57,8 +64,7 @@ public class QuestionServiceImpl implements QuestionService {
     }
 
 
-    @Override
-    public User findUserByQuestionId(int questionId){ return questionRepository.findUserByQuestionId(questionId);}
+
     */
 }
 

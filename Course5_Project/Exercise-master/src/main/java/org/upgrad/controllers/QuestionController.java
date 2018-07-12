@@ -3,10 +3,7 @@ package org.upgrad.controllers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.upgrad.models.Question;
 import org.upgrad.models.User;
 import org.upgrad.services.QuestionService;
@@ -45,14 +42,32 @@ public class QuestionController {
     }
 
     @GetMapping("/api/question/all")
-    public ResponseEntity<?> getAllQuestions(HttpSession session) {
+    public ResponseEntity<?> getAllQuestionsByUser(HttpSession session) {
 
         if (session.getAttribute("currUser")==null) {
             return new ResponseEntity<>("Please Login first to access this endpoint!", HttpStatus.UNAUTHORIZED);
         }
 
         else {
-            return new ResponseEntity<>(questionService.findAllByUserId (userService.getUserID ((String) session.getAttribute("currUser"))), HttpStatus.OK);
+            return new ResponseEntity<>(questionService.getAllQuestionsByUser(userService.getUserID ((String) session.getAttribute("currUser"))), HttpStatus.OK);
+        }
+    }
+
+    @DeleteMapping("/api/question/{questionId}")
+    public ResponseEntity<?> deleteQuestionByQuestionId(@RequestParam("questionId") int questionId,HttpSession session) {
+
+        if (session.getAttribute("currUser")==null) {
+            return new ResponseEntity<>("Please Login first to access this endpoint!", HttpStatus.UNAUTHORIZED);
+        }
+
+        else {
+
+
+            int userId = questionService.findUserByQuestionId (questionId);
+            if(userId == (userService.getUserID ((String) session.getAttribute("currUser")))){
+                questionService.deleteQuestionById (questionId);
+            }
+            return new ResponseEntity<>("Question deleted successfully", HttpStatus.OK);
         }
     }
 
