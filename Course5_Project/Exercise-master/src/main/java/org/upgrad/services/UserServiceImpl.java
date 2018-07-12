@@ -3,7 +3,8 @@
 package org.upgrad.services;
 
 import org.springframework.stereotype.Service;
-import org.upgrad.models.Users;
+import org.upgrad.models.User;
+import org.upgrad.models.UserProfile;
 import org.upgrad.repositories.UserRepository;
 import org.upgrad.repositories.User_Profile;
 
@@ -55,5 +56,11 @@ public class UserServiceImpl implements UserService {
     @Override
     public void userProfileDetails(int user_id, String firstName, String lastName, String aboutMe, Date dob, String contactNumber, String country) {
         user_profile.userProfileDetails(user_id,firstName,lastName,aboutMe,dob,contactNumber,country);
+    }
+
+    @Override
+    public Iterable<UserProfile> getUserProfile(int id) {
+       return user_profile.getUserProfile(id);
+
     }
 }

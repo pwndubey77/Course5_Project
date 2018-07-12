@@ -14,20 +14,19 @@ public class UserProfile {
 
     @Column
     private String firstname;
-
-
-
-    @Column
-
-    private String lastnemae;
+    
 
     @Column
+
+    private String lastname;
+
+    @Column(name = "aboutme")
     private String aboutMe;
 
     @Column
     private Date dob;
 
-    @Column
+    @Column(name = "contactnumber")
     private String contactNumber;
 
     @Column
@@ -51,12 +50,12 @@ public class UserProfile {
         this.firstname = firstname;
     }
 
-    public String getLastnemae() {
-        return lastnemae;
+    public String getLastname() {
+        return lastname;
     }
 
-    public void setLastnemae(String lastnemae) {
-        this.lastnemae = lastnemae;
+    public void setLastname(String lastname) {
+        this.lastname = lastname;
     }
 
     public String getAboutMe() {
