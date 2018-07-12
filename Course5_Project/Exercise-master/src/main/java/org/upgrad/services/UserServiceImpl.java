@@ -3,7 +3,7 @@
 package org.upgrad.services;
 
 import org.springframework.stereotype.Service;
-import org.upgrad.models.Users;
+import org.upgrad.models.User;
 import org.upgrad.repositories.UserRepository;
 import org.upgrad.repositories.User_Profile;
 

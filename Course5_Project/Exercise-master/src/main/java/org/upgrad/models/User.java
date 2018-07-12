@@ -4,7 +4,7 @@ import javax.persistence.*;
 
 @Entity
 @Table(name = "Users")
-public class Users {
+public class User {
 
     @Id
     @Column(columnDefinition = "serial")
@@ -68,11 +68,17 @@ public class Users {
 
 
 
-    public Users(String username,String password,String email)
+    public User(String username,String password,String email)
     {
         this.username=username;
         this.password=password;
         this.email=email;
+
+    }
+
+    public User(String username)
+    {
+        this.username=username;
 
     }
 }

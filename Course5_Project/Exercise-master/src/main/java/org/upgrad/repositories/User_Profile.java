@@ -5,7 +5,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 import org.upgrad.models.UserProfile;
-import org.upgrad.models.Users;
+import org.upgrad.models.User;
 
 import javax.transaction.Transactional;
 import java.util.Date;
