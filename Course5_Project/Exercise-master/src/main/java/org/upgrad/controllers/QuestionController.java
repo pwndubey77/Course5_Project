@@ -66,8 +66,14 @@ public class QuestionController {
             int userId = questionService.findUserByQuestionId (questionId);
             if(userId == (userService.getUserID ((String) session.getAttribute("currUser")))){
                 questionService.deleteQuestionById (questionId);
+                return new ResponseEntity<>("Question with questionId " + questionId + " deleted successfully", HttpStatus.OK);
             }
-            return new ResponseEntity<>("Question deleted successfully", HttpStatus.OK);
+
+            else{
+                return new ResponseEntity<>("You do not have rights to delete this question!", HttpStatus.UNAUTHORIZED);
+            }
+
+
         }
     }
 
