@@ -19,5 +19,7 @@ public interface AnswerService {
     List<Answer> getAllAnswersByQuestionId(int questionId);
 
     List<Answer> getAllAnswersByUser(int userId);
+
+    void deleteAnswerById(int answerId);
 }
 

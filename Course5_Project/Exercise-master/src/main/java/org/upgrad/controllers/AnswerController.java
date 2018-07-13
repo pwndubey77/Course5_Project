@@ -44,7 +44,7 @@ public class AnswerController {
     }
 
     //problem in query - update query
-    @PostMapping("/api/answer/{answerId}")
+    @PutMapping("/api/answer/{answerId}")
     public ResponseEntity<?> editAnswer(@RequestParam("answer") String answerBody,@RequestParam("answerId") int answerId,HttpSession session) {
 
 
@@ -98,6 +98,33 @@ public class AnswerController {
         }
     }
 
+    @DeleteMapping("/api/answer/{answerId}")
+    public ResponseEntity<?> deleteAnswer(@RequestParam("answerId") int answerId,HttpSession session) {
+
+        String userRole = userService.getCurrentUserRole((String) session.getAttribute("currUser"));
+        int userId = answerService.findUserByAnswerId (answerId);
+
+        if (session.getAttribute("currUser")==null) {
+            return new ResponseEntity<>("Please Login first to access this endpoint!", HttpStatus.UNAUTHORIZED);
+        }
+
+        else {
+
+
+
+            if(userId == (userService.getUserID ((String) session.getAttribute("currUser"))) || userRole!=null){
+                answerService.deleteAnswerById (answerId);
+                return new ResponseEntity<>("Answer with answerId " + answerId + " deleted successfully", HttpStatus.OK);
+            }
+
+            else{
+                return new ResponseEntity<>("You do not have rights to delete this answer!", HttpStatus.UNAUTHORIZED);
+            }
+
+
+        }
+
+    }
 
 
 

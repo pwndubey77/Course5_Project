@@ -33,7 +33,8 @@ public interface AnswerRepository extends CrudRepository<Answer,String>{
     List<Answer> getAllAnswersByUserId(int userId);
 
 
-
-
-
+    @Transactional
+    @Modifying
+    @Query(nativeQuery = true,value="delete from answer where id=?1 ")
+    void deleteAnswerByAnswerId(int answerId);
 }
