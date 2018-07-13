@@ -53,8 +53,9 @@ public class UserControllers {
          }
     }
 
-        @PostMapping("/users/signin")
-        public ResponseEntity<String> signup(@RequestParam String userName, @RequestParam String password,HttpSession session) {
+    @PostMapping("/users/signin")
+    public ResponseEntity<String> signup(@RequestParam String userName, @RequestParam String password,HttpSession session)
+    {
 
             String usernameByUser = userRepository.findUsername(userName);
             String passwordByUser = Hashing.sha256().hashString(password, Charsets.US_ASCII).toString();
@@ -77,7 +78,34 @@ public class UserControllers {
             session.setAttribute("currUser",userName);
 
             return new ResponseEntity<>("You have logged in successfully!", HttpStatus.OK);
-        }
+    }
 
+    @PostMapping("/user/logout")
+    public ResponseEntity<String> signout(HttpSession session)
+    {
+            if(session.getAttribute("currUser")==null) return new ResponseEntity<>("You are currently not logged in",HttpStatus.UNAUTHORIZED);
+            else
+            {
+            session.removeAttribute("currUser");
+            return new ResponseEntity<>("You have logged out successfully!",HttpStatus.OK);
+            }
+    }
+
+    @GetMapping("/user/userprofile/{userId}")
+    public ResponseEntity<?> getUserProfile(@PathVariable("userId") int userId,HttpSession session)
+    {
+        if(session.getAttribute("currUser")==null)
+            return new ResponseEntity<>("Please Login first to access this endpoint",HttpStatus.UNAUTHORIZED);
+        else
+        {
+          if(userService.getUserProfile(userId).iterator().hasNext())
+          {
+              return new ResponseEntity<>(userService.getUserProfile(userId),HttpStatus.OK);
+          }
+          else
+              return new ResponseEntity<>("User Profile not found!",HttpStatus.FORBIDDEN);
+        }
+    }
+    
 
 }

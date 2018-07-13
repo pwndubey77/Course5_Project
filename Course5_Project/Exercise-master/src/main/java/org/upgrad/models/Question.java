@@ -1,3 +1,4 @@
+
 package org.upgrad.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -91,3 +92,4 @@ public class Question implements Serializable {
     }
 
 }
+
