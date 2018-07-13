@@ -1,3 +1,4 @@
+
 package org.upgrad.repositories;
 
 import org.springframework.data.jpa.repository.Modifying;
@@ -71,4 +72,5 @@ public interface QuestionRepository extends CrudRepository<Question, Integer> {
     @Query(nativeQuery = true,value="delete from post where id=?1 ")
     void deletePostById(Long id);
     */
+
 }
