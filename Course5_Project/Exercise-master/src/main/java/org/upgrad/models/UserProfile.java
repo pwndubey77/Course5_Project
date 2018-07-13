@@ -20,13 +20,13 @@ public class UserProfile {
 
     private String lastname;
 
-    @Column
+    @Column(name = "aboutme")
     private String aboutMe;
 
     @Column
     private Date dob;
 
-    @Column
+    @Column(name = "contactnumber")
     private String contactNumber;
 
     @Column
