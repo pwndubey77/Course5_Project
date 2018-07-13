@@ -11,6 +11,7 @@ import org.upgrad.models.User;
 import javax.transaction.Transactional;
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
 @Repository
 public interface QuestionRepository extends CrudRepository<Question, Integer> {
@@ -29,7 +30,19 @@ public interface QuestionRepository extends CrudRepository<Question, Integer> {
     @Transactional
     @Modifying
     @Query(nativeQuery = true,value="delete from question where id=?1 ")
-    void deleteQuestionById(int id);
+    void deleteQuestionById(int questionid);
+
+    @Query(nativeQuery = true,value="select * from question where id=?1")
+    Question getQuestionsByQuestionId(int questionId);
+
+    @Transactional
+    @Modifying
+    @Query(nativeQuery = true,value="insert into question_category (id,question_id,category_id,questions_id) values (?1,?2,?3,?4)")
+    void addCategory(int id, int question_id, int category_id,long questions_id);
+
+
+    @Query(nativeQuery = true, value="select question_id from question_category where id=?1")
+    Set<Integer> getQuestionsByCategoryId(int categoryId);
 
     /*
 
