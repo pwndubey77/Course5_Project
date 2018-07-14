@@ -15,6 +15,6 @@ public class NotificationServiceImpl implements NotificationService{
     @Override
     public void sendNotificationToUser(int user, String NotificationMessage) {
 
-        notificationRepository.addNotifcationForUser(user,NotificationMessage);
+        notificationRepository.addNotificationForUser(user,NotificationMessage);
     }
 }
