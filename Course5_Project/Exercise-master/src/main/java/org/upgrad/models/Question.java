@@ -10,11 +10,11 @@ import java.util.HashSet;
 
 @Entity
 @Table(name = "question")
-public class Question implements Serializable {
+public class Question {
 
 
     @Id
-    @Column(name = "id")
+    @Column(columnDefinition = "serial")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
