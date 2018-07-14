@@ -57,4 +57,23 @@ public class AdminController {
             return new ResponseEntity<>("You do not have rights to access all users!", HttpStatus.FORBIDDEN);
 
     }
+
+    @PostMapping("/admin/category")
+    public ResponseEntity<?> categoriesCreation(@RequestParam  String categoryTitle,@RequestParam String description,HttpSession session)
+    {
+        if(session.getAttribute("currUser")==null)
+            return new ResponseEntity<>("Please Login first to access this endpoint", HttpStatus.FORBIDDEN);
+        String user=session.getAttribute("currUser").toString();
+        String role=userService.getCurrentUserRole(user);
+        if(role.equalsIgnoreCase("ADMIN"))
+        {
+            userService.addCategory(categoryTitle,description);
+            return new ResponseEntity<>(categoryTitle+" Created Successfully!",HttpStatus.OK);
+
+        }
+        else
+            return new ResponseEntity<>("You do not have rights to add categories.", HttpStatus.FORBIDDEN);
+
+    }
+
 }
