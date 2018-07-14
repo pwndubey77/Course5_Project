@@ -18,6 +18,16 @@ public class CommentServiceImpl implements CommentService {
         public void giveComment(String content ,int userId,int answerId) {
             commentRepository.addCommentValues(content,userId,answerId);
         }
+
+        @Override
+        public int getUserByCommentId(int commentId) {
+            return commentRepository.getUserByCommentId(commentId);
+        }
+
+        @Override
+        public void editCommentByCommentId(int commentId, String commentBody) {
+            commentRepository.editCommentById (commentId,commentBody);
+        }
 /*
         @Override
         public List<Comment> getAllCommentsByAnswer (int answerid) {

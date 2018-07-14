@@ -6,6 +6,10 @@ public interface CommentService {
 
     void giveComment (String content , int userId, int answerId);
 
+    int getUserByCommentId(int commentId);
+
+    void editCommentByCommentId(int commentId ,String commentBody);
+
    // List<Comment> getAllCommentsByAnswer(int answerid);
 
     //void deleteComment(int id);
