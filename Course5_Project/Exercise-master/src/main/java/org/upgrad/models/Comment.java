@@ -24,7 +24,7 @@ public class Comment {
     @Column(name="date")
     private Date date;
 
-    @Column
+    @Column(name="modifiedon")
     private Date modifiedOn;
 
 

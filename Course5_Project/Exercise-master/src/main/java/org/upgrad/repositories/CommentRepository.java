@@ -25,12 +25,12 @@ public interface CommentRepository extends CrudRepository<Comment,String>{
     @Query(nativeQuery = true,value="update comment set content=?2,modifiedon=now() where id=?1")
     void editCommentById(int commentId , String content);
 
-    @Query(nativeQuery = true,value ="select * from content where answer_id = ?1")
-    List<Comment> getAllCommentsByAnswer (int answerId);
+    @Query(nativeQuery = true,value ="select * from comment where answer_id = ?1")
+    List<Comment> getAllCommentsByAnswerId(int answerId);
 
 
     @Transactional
     @Modifying
-    @Query(nativeQuery = true,value="delete from comment where id=?1 ")
-    void deleteComment(int commentId);
+    @Query(nativeQuery = true,value="delete from comment where id=?1")
+    void deleteCommentById(int commentId);
 }

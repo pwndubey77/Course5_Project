@@ -1,7 +1,9 @@
 package org.upgrad.services;
-import org.springframework.stereotype.Service;
 
-@Service("CommentService")
+import org.upgrad.models.Comment;
+
+import java.util.List;
+
 public interface CommentService {
 
     void giveComment (String content , int userId, int answerId);
@@ -12,8 +14,7 @@ public interface CommentService {
 
    // List<Comment> getAllCommentsByAnswer(int answerid);
 
-    //void deleteComment(int id);
+    void deleteCommentByCommentId(int commentId);
 
-    //Answer editComment (int answerId);
-
+    List<Comment> getAllCommentsByAnswerId(int answerId);
 }
