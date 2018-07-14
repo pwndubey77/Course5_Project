@@ -136,5 +136,17 @@ public class AnswerController {
     }
 
 
+    @GetMapping("/api/answer/likes/{questionId}")
+    public ResponseEntity<?> getAllAnswersByLikes(@RequestParam("questionId") int questionId,HttpSession session) {
+
+        if (session.getAttribute("currUser")==null) {
+            return new ResponseEntity<>("Please Login first to access this endpoint!", HttpStatus.UNAUTHORIZED);
+        }
+
+        else {
+
+            return new ResponseEntity<>(answerService.getAllAnswersByLikes(questionId), HttpStatus.OK);
+        }
+    }
 
 }
