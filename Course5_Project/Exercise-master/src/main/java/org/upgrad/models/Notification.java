@@ -20,6 +20,10 @@ public class Notification {
     @Column(name = "date")
     private Date date = new Date();
 
+    public Notification() {
+
+    }
+
     @Column(name = "read")
     private boolean read;
 

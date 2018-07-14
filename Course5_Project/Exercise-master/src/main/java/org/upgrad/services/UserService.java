@@ -1,5 +1,6 @@
 package org.upgrad.services;
 
+import org.upgrad.models.Notification;
 import org.upgrad.models.User;
 
 import org.upgrad.models.UserProfile;
@@ -7,6 +8,7 @@ import org.upgrad.models.UserProfile;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 public interface UserService {
 
@@ -20,6 +22,7 @@ public interface UserService {
     Iterable<UserProfile> getUserProfile(int id);
     void deleteUserProfileById(int Id);
     void deleteUserById(int id);
-    List<String> getAllUsers();
+    List<Map> getAllUsers();
+    void addCategory(String title,String desc);
 
 }
