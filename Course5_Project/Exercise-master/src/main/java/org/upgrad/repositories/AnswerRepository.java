@@ -20,10 +20,9 @@ public interface AnswerRepository extends CrudRepository<Answer,String>{
     @Query(nativeQuery = true,value="select user_id from answer where id = ?1")
     int getUserByAnswerId(int answerId);
 
-    //problem in query
     @Transactional
     @Modifying
-    @Query(nativeQuery = true,value="update answer(ans) values(?2) where id = ?1;")
+    @Query(nativeQuery = true,value="update answer set ans=?2,modifiedon=now() where id=?1")
     void editAnswerById(int answerId , String answer);
 
     @Query(nativeQuery = true,value ="select * from answer where question_id = ?1")
