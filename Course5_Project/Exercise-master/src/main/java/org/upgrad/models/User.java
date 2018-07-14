@@ -6,6 +6,7 @@ import javax.persistence.*;
 @Table(name = "Users")
 public class User {
 
+
     @Id
     @Column(columnDefinition = "serial")
     @GeneratedValue(strategy=GenerationType.IDENTITY)
@@ -26,6 +27,11 @@ public class User {
   //  @OneToOne(cascade = CascadeType.ALL,fetch = FetchType.EAGER)
   //  private UserProfile user_profile;
 
+    public User()
+    {
+
+    }
+
     public int getId() {
         return id;
     }
@@ -35,7 +41,7 @@ public class User {
     }
 
     public String getUsername() {
-        return username;
+        return "userName :"+username;
     }
 
     public void setUsername(String username) {
@@ -66,9 +72,12 @@ public class User {
         this.role = role;
     }
 
+    public User(String email, String username) {
+        this.email = email;
+        this.username = username;
+    }
 
-
-    public User(String username,String password,String email)
+    public User(String username, String password, String email)
     {
         this.username=username;
         this.password=password;
@@ -80,5 +89,9 @@ public class User {
     {
         this.username=username;
 
+    }
+    public String toString()
+    {
+        return "Id :"+id+"userName :"+username+"email :"+email;
     }
 }
