@@ -20,13 +20,15 @@ public class QuestionServiceImpl implements QuestionService {
 
 
     @Override
-    public void createQuestion(int questionId , String content , Set<Integer> categories, int userId) {
+    public void createQuestion(String content , Set<Integer> categories, int userId) {
 
-        questionRepository.addQuestionValues(questionId,content,userId);
+        questionRepository.addQuestionValues(content,userId);
+        int questionId = questionRepository.getLatestQuestionId ();
         for(int category : categories) {
-           Long idQuestionCategory = System.currentTimeMillis() % 1000;
-           questionRepository.addCategory(idQuestionCategory.intValue (), questionId, category,Long.valueOf (questionId));
+
+           questionRepository.addCategory(questionId, category,Long.valueOf (questionId));
         }
+
     }
 
     @Override
