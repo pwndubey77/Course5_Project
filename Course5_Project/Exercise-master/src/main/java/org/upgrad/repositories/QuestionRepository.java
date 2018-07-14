@@ -41,7 +41,7 @@ public interface QuestionRepository extends CrudRepository<Question, Integer> {
     void addCategory(int question_id, int category_id,long questions_id);
 
 
-    @Query(nativeQuery = true, value="select question_id from question_category where id=?1")
+    @Query(nativeQuery = true, value="select question_id from question_category where category_id=?1")
     Set<Integer> getQuestionsByCategoryId(int categoryId);
 
     @Query(nativeQuery = true, value="select max(id)  from question")
@@ -49,6 +49,9 @@ public interface QuestionRepository extends CrudRepository<Question, Integer> {
 
     @Query(nativeQuery = true,value="select * from question ")
     List<Question> getAllQuestions();
+
+    @Query(nativeQuery = true,value="select * from question where id IN (?1)")
+    List<Question> getQuestionsByQuestionId(Set<Integer> id);
 
     /*
 
