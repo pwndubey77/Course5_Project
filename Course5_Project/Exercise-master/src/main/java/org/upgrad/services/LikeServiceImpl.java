@@ -2,16 +2,20 @@ package org.upgrad.services;
 
 import org.springframework.stereotype.Service;
 import org.upgrad.models.Like;
+import org.upgrad.repositories.LikeRepository;
 
-@Service
+@Service("LikeService")
 public class LikeServiceImpl implements LikeService{
-    @Override
-    public Like getLikes(int userId, int id) {
-        return null;
+
+    private final LikeRepository likeRepository;
+
+    public LikeServiceImpl(LikeRepository likeRepository){
+        this.likeRepository = likeRepository;
     }
 
     @Override
-    public int getUserId(int id, int userId) {
-        return 0;
+    public void addLikesByUserForAnswerId(int currentUser, int answerId) {
+        likeRepository.addLikesByUserForAnswerId(currentUser,answerId);
+
     }
 }

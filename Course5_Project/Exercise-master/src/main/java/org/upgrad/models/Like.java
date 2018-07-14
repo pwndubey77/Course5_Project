@@ -2,19 +2,20 @@ package org.upgrad.models;
 
 import javax.persistence.*;
 
-@Table(name = "LIKES")
+@Table(name = "likes")
 @Entity
 public class Like {
     @Id
-    @Column(name = "id")
+    @Column(columnDefinition = "serial")
     @GeneratedValue(strategy= GenerationType.IDENTITY)
     private int id;
 
     @Column(name = "user_id")
-    private int user_id;
+    private int userId;
 
     @Column(name = "answer_id")
-    private int answer_id;
+    private int answerId;
+
 
     public int getId() {
         return id;
@@ -24,19 +25,21 @@ public class Like {
         this.id = id;
     }
 
-    public int getUser_id() {
-        return user_id;
+    public int getUserId() {
+        return userId;
     }
 
-    public void setUser_id(int user_id) {
-        this.user_id = user_id;
+    public void setUserId(int userId) {
+        this.userId = userId;
     }
 
-    public int getAnswer_id() {
-        return answer_id;
+    public int getAnswerId() {
+        return answerId;
     }
 
-    public void setAnswer_id(int answer_id) {
-        this.answer_id = answer_id;
+    public void setAnswerId(int answerId) {
+        this.answerId = answerId;
     }
+
+    public Like() { }
 }

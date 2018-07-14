@@ -2,20 +2,20 @@ package org.upgrad.models;
 
 import javax.persistence.*;
 
-@Table(name = "FOLLOW")
+@Table(name = "follow")
 @Entity
 public class Follow {
 
     @Id
-    @Column(name = "id")
+    @Column(columnDefinition = "serial")
     @GeneratedValue(strategy= GenerationType.IDENTITY)
     private int id;
 
     @Column(name = "user_id")
-    private int user_id;
+    private int userId;
 
     @Column(name = "category_id")
-    private int category_id;
+    private int categoryId;
 
     public int getId() {
         return id;
@@ -25,19 +25,21 @@ public class Follow {
         this.id = id;
     }
 
-    public int getUser_id() {
-        return user_id;
+    public int getUserId() {
+        return userId;
     }
 
-    public void setUser_id(int user_id) {
-        this.user_id = user_id;
+    public void setUserId(int userId) {
+        this.userId = userId;
     }
 
-    public int getCategory_id() {
-        return category_id;
+    public int getCategoryId() {
+        return categoryId;
     }
 
-    public void setCategory_id(int category_id) {
-        this.category_id = category_id;
+    public void setCategoryId(int categoryId) {
+        this.categoryId = categoryId;
     }
+
+    public Follow() { }
 }

@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.upgrad.services.FollowService;
 import org.upgrad.services.LikeService;
+import org.upgrad.services.NotificationService;
 import org.upgrad.services.UserService;
 
 import javax.servlet.http.HttpSession;
@@ -25,16 +26,27 @@ public class LikesFollowController {
     @Autowired
     FollowService followService;
 
+    @Autowired
+    NotificationService notificationService;
+
     @PostMapping("/api/like/{answerId}")
     public ResponseEntity<?> giveLikes (@RequestParam("answerId") int answerId, HttpSession session){
-        int currentUser = userService.getUserID ((String) session.getAttribute ("currUser"));
+
+
         if (session.getAttribute("currUser")==null) {
             return new ResponseEntity<>("Please Login first to access this endpoint!", HttpStatus.UNAUTHORIZED);
         } else {
-            return new ResponseEntity<>(likeService.getLikes(currentUser), HttpStatus.OK);
+
+            int currentUser = userService.getUserID ((String) session.getAttribute ("currUser"));
+            String notificationMessage = ("User with userId " + currentUser + " has liked your answer with answerId " + answerId);
+
+            likeService.addLikesByUserForAnswerId(currentUser,answerId);
+            notificationService.sendNotificationToUser(currentUser, notificationMessage);
+
+            return new ResponseEntity<>("answerId " + answerId + " liked successfully", HttpStatus.OK);
         }
     }
-
+/*
     @DeleteMapping("/api/unlike/{answerId}")
     public ResponseEntity<?> unlike (@RequestParam("answerId") int answerId, HttpSession session){
         int currentUser = userService.getUserID ((String) session.getAttribute ("currUser"));
@@ -65,4 +77,5 @@ public class LikesFollowController {
             return new ResponseEntity<>(followService.getAllAnswersByUser(currentUser), HttpStatus.OK);
         }
     }
+    */
 }
