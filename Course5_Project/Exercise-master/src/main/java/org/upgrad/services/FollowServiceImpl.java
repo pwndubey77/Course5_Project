@@ -17,4 +17,20 @@ public class FollowServiceImpl implements FollowService {
     public int findUserId(int id, int userId) {
         return 0;
     }
+
+    @Override
+    public int checkForUserInFollowedByList(int userId) {
+        return followRepository.findUserInFollowedByList(userId);
+    }
+
+    @Override
+    public void followCategory(int userId, int categoryId) {
+        followRepository.followCategory(userId,categoryId);
+
+    }
+
+    @Override
+    public void unfollowCategory(int followEntry) {
+        followRepository.unfollowCategory(followEntry);
+    }
 }

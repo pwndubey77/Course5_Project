@@ -46,36 +46,76 @@ public class LikesFollowController {
             return new ResponseEntity<>("answerId " + answerId + " liked successfully", HttpStatus.OK);
         }
     }
-/*
+
+    //problem in query get user entry...
     @DeleteMapping("/api/unlike/{answerId}")
     public ResponseEntity<?> unlike (@RequestParam("answerId") int answerId, HttpSession session){
-        int currentUser = userService.getUserID ((String) session.getAttribute ("currUser"));
+
         if (session.getAttribute("currUser")==null) {
             return new ResponseEntity<>("Please Login first to access this endpoint!", HttpStatus.UNAUTHORIZED);
         } else {
-            return new ResponseEntity<>(likeService.getAllAnswersByUser(currentUser), HttpStatus.OK);
+
+
+            int currentUser = userService.getUserID ((String) session.getAttribute ("currUser"));
+            int checkforUserLike = likeService.checkForUserInLikedByList(currentUser);
+            if(checkforUserLike > 0){
+
+                likeService.unlikeAnswer(checkforUserLike);
+                return new ResponseEntity<>("You have unliked answer with answerId" +answerId+ " successfully", HttpStatus.OK);
+
+            }
+            else{
+                return new ResponseEntity<>("You have not liked this answer", HttpStatus.UNAUTHORIZED);
+            }
+
         }
     }
 
-
+    //problem in query get user entry...
     @PostMapping("/api/follow/{categoryId}")
     public ResponseEntity<?> addFollowCategory (@RequestParam("categoryId") int categoryId, HttpSession session){
-        int currentUser = userService.getUserID ((String) session.getAttribute ("currUser"));
+
         if (session.getAttribute("currUser")==null) {
             return new ResponseEntity<>("Please Login first to access this endpoint!", HttpStatus.UNAUTHORIZED);
         } else {
-            return new ResponseEntity<>(followService.getAllAnswersByUser(currentUser), HttpStatus.OK);
+
+
+            int currentUser = userService.getUserID ((String) session.getAttribute ("currUser"));
+            int checkForUserFollow = followService.checkForUserInFollowedByList(currentUser);
+            if(checkForUserFollow > 0){
+
+                return new ResponseEntity<>("You have already followed this category!", HttpStatus.UNAUTHORIZED);
+          }
+            else{
+
+                followService.followCategory(currentUser,categoryId);
+                return new ResponseEntity<>("category "+categoryId+" followed successfully", HttpStatus.OK);
+            }
+
         }
     }
 
+    //problem in query get user entry...
     @DeleteMapping("/api/unfollow/{categoryId}")
     public ResponseEntity<?> unFollow (@RequestParam("categoryId") int categoryId, HttpSession session){
-        int currentUser = userService.getUserID ((String) session.getAttribute ("currUser"));
         if (session.getAttribute("currUser")==null) {
             return new ResponseEntity<>("Please Login first to access this endpoint!", HttpStatus.UNAUTHORIZED);
         } else {
-            return new ResponseEntity<>(followService.getAllAnswersByUser(currentUser), HttpStatus.OK);
+
+
+            int currentUser = userService.getUserID ((String) session.getAttribute ("currUser"));
+            int checkForFollowEntry = followService.checkForUserInFollowedByList(currentUser);
+            if(checkForFollowEntry > 0){
+
+                followService.unfollowCategory(checkForFollowEntry);
+                return new ResponseEntity<>("You have unfollowed the category " +categoryId+ " successfully", HttpStatus.OK);
+
+            }
+            else{
+                return new ResponseEntity<>("You are curently not following this category", HttpStatus.UNAUTHORIZED);
+            }
+
         }
     }
-    */
+
 }

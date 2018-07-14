@@ -16,4 +16,11 @@ public interface LikeRepository extends CrudRepository<Like,Integer>{
     @Query(nativeQuery = true,value="insert into likes (user_id,answer_id) values (?1,?2)")
     void addLikesByUserForAnswerId(int userId,int answerId );
 
+
+    @Query(nativeQuery = true,value="SELECT id from likes where user_id = ?1")
+    int checkForUserInLikedByEntries(int currentUser);
+
+    @Modifying
+    @Query(nativeQuery = true,value="delete from likes where id=?1")
+    void unlikeAnswer(int likeId);
 }
