@@ -7,7 +7,7 @@ import java.util.Date;
 public class Answer {
 
     @Id
-    @Column(name = "id")
+    @Column(columnDefinition = "serial")
     @GeneratedValue(strategy=GenerationType.IDENTITY)
     private int id;
 
