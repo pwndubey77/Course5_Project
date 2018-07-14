@@ -11,6 +11,7 @@ import org.upgrad.repositories.UserRepository;
 import org.upgrad.repositories.User_Profile;
 
 import java.util.Date;
+import java.util.List;
 
 
 @Service
@@ -64,5 +65,20 @@ public class UserServiceImpl implements UserService {
     public Iterable<UserProfile> getUserProfile(int id) {
        return user_profile.getUserProfile(id);
 
+    }
+
+    @Override
+    public void deleteUserProfileById(int Id) {
+        user_profile.deleteUserProfileById(Id);
+    }
+
+    @Override
+    public void deleteUserById(int id) {
+        userRepository.deleteUserById(id);
+    }
+
+    @Override
+    public List<String> getAllUsers() {
+       return userRepository.getUserDetails();
     }
 }
