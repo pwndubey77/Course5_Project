@@ -47,6 +47,9 @@ public interface QuestionRepository extends CrudRepository<Question, Integer> {
     @Query(nativeQuery = true, value="select max(id)  from question")
     int getLatestQuestionId();
 
+    @Query(nativeQuery = true,value="select * from question ")
+    List<Question> getAllQuestions();
+
     /*
 
 

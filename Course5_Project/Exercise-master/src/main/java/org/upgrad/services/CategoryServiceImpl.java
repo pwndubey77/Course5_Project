@@ -4,6 +4,7 @@ import org.springframework.stereotype.Service;
 import org.upgrad.models.Category;
 import org.upgrad.repositories.CategoryRepository;
 
+import java.util.List;
 import java.util.Set;
 
 @Service("CategoryService")
@@ -18,14 +19,19 @@ public class CategoryServiceImpl implements CategoryService {
 
 
     @Override
-    public void createCategory(int id , String title, String description) {
+    public void createCategory(String title, String description) {
 
-        categoryRepository.addCategoryValues (id,title, description);
+        categoryRepository.addCategoryValues (title, description);
     }
 
     @Override
     public Category getCategory(int categoryId) {
         return categoryRepository.getCategory (categoryId);
+    }
+
+    @Override
+    public List<Category> getAllCategories() {
+        return categoryRepository.getAllCategories();
     }
 
    /* @Override

@@ -65,6 +65,11 @@ public class QuestionServiceImpl implements QuestionService {
         return allQuestions;
     }
 
+    @Override
+    public List<Question> getAllQuestions() {
+        return questionRepository.getAllQuestions();
+    }
+
 
     /*
     @Override
