@@ -21,8 +21,15 @@ public class CommonController {
     @Autowired
     CategoryService categoryService;
 
+    @GetMapping("/api/categories/all")
+    public ResponseEntity<?> getAllCategories() {
+
+        return new ResponseEntity<>(categoryService.getAllCategories(), HttpStatus.OK);
+
+    }
+
     @GetMapping("/api/questions/all")
-    public ResponseEntity<?> createQuestion() {
+    public ResponseEntity<?> getAllQuestions() {
 
         return new ResponseEntity<>(questionService.getAllQuestions(), HttpStatus.OK);
 

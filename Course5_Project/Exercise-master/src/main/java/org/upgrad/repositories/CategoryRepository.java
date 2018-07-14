@@ -7,6 +7,7 @@ import org.springframework.stereotype.Repository;
 import org.upgrad.models.Category;
 
 import javax.transaction.Transactional;
+import java.util.List;
 import java.util.Set;
 
 
@@ -20,6 +21,9 @@ public interface CategoryRepository extends CrudRepository<Category,Integer> {
 
     @Query(nativeQuery = true, value="select * from category where id=?1")
     Category getCategory(int categoryId);
+
+    @Query(nativeQuery = true, value="select * from category")
+    List<Category> getAllCategories();
 
 
 }
