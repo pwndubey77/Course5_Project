@@ -1,4 +1,9 @@
 package org.upgrad.models;
+
+
+import javax.persistence.*;
+import java.util.Date;
+
 @Entity
 @Table(name = "comment")
 public class Comment {
@@ -10,25 +15,24 @@ public class Comment {
     @Column (name ="content")
     private String content;
 
-    @Column(name = "answerid")
+    @Column(name = "answer_id")
     private int answerid;
 
-    @Column(name = "userid")
+    @Column(name = "user_id")
     private int userid;
 
     @Column(name="date")
     private Date date;
 
-    @Column
+    @Column(name="modifiedon")
     private Date modifiedOn;
 
 
-    public int CommentController(){
+    public Comment(){}
 
-    }
-    public int CommentController(int cId)
+    public Comment(int commentId)
     {
-        this.id=cId;
+        this.id=commentId;
     }
 
     public int getId() {
@@ -55,20 +59,20 @@ public class Comment {
         this.answerid = answerid;
     }
 
-    public Date getDate() {
-        return date;
-    }
-
-    public void setDate(Date date) {
-        this.date = date;
-    }
-
     public int getUserid() {
         return userid;
     }
 
     public void setUserid(int userid) {
         this.userid = userid;
+    }
+
+    public Date getDate() {
+        return date;
+    }
+
+    public void setDate(Date date) {
+        this.date = date;
     }
 
     public Date getModifiedOn() {

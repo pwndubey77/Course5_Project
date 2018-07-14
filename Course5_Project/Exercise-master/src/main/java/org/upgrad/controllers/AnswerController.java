@@ -56,14 +56,16 @@ public class AnswerController {
     public ResponseEntity<?> editAnswer(@RequestParam("answer") String answerBody,@RequestParam("answerId") int answerId,HttpSession session) {
 
 
-        String userRole = userService.getCurrentUserRole((String) session.getAttribute("currUser"));
-        int userId = answerService.findUserByAnswerId (answerId);
+
 
         if (session.getAttribute("currUser")==null) {
             return new ResponseEntity<>("Please Login first to access this endpoint!", HttpStatus.UNAUTHORIZED);
         }
 
         else {
+
+            String userRole = userService.getCurrentUserRole((String) session.getAttribute("currUser"));
+            int userId = answerService.findUserByAnswerId (answerId);
 
             if(userId == (userService.getUserID ((String) session.getAttribute("currUser"))) || userRole.equals ("admin")){
 
@@ -96,12 +98,13 @@ public class AnswerController {
     public ResponseEntity<?> getAllAnswersByUser(HttpSession session) {
 
 
-        int currentUser = userService.getUserID ((String) session.getAttribute ("currUser"));
+
         if (session.getAttribute("currUser")==null) {
             return new ResponseEntity<>("Please Login first to access this endpoint!", HttpStatus.UNAUTHORIZED);
         }
 
         else {
+            int currentUser = userService.getUserID ((String) session.getAttribute ("currUser"));
             return new ResponseEntity<>(answerService.getAllAnswersByUser(currentUser), HttpStatus.OK);
         }
     }
@@ -109,16 +112,14 @@ public class AnswerController {
     @DeleteMapping("/api/answer/{answerId}")
     public ResponseEntity<?> deleteAnswer(@RequestParam("answerId") int answerId,HttpSession session) {
 
-        String userRole = userService.getCurrentUserRole((String) session.getAttribute("currUser"));
-        int userId = answerService.findUserByAnswerId (answerId);
-
         if (session.getAttribute("currUser")==null) {
             return new ResponseEntity<>("Please Login first to access this endpoint!", HttpStatus.UNAUTHORIZED);
         }
 
         else {
 
-
+            String userRole = userService.getCurrentUserRole((String) session.getAttribute("currUser"));
+            int userId = answerService.findUserByAnswerId (answerId);
 
             if(userId == (userService.getUserID ((String) session.getAttribute("currUser"))) || userRole!=null){
                 answerService.deleteAnswerById (answerId);

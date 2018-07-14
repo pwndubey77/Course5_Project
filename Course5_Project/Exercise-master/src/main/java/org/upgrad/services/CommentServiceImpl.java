@@ -4,37 +4,40 @@ import java.util.*;
 import org.upgrad.models.Comment;
 import org.upgrad.repositories.CommentRepository;
 
-public class CommentServiceImpl {
+@Service("CommentService")
+public class CommentServiceImpl implements CommentService {
 
-    @Service("CommentService")
-    public class CommentServiceImpl implements CommentService {
+    private final CommentRepository commentRepository;
 
-        private final CommentRepository commentRepository;
+    public CommentServiceImpl(CommentRepository commentRepository) {
 
-        public CommentServiceImpl(CommentRepository commentRepository) {
+        this.commentRepository =commentRepository;
+    }
 
-            this.commentRepository =commentRepository;
-        }
+    @Override
+    public void giveComment(String content ,int userId,int answerId) {
+        commentRepository.addCommentValues(content,userId,answerId);
+    }
 
-        @Override
-        public void giveQuestion(int commentId , String content ,int userId) {
-            commentRepository.addcommentValues(commentId,content,userId);
-        }
+    @Override
+    public int getUserByCommentId(int commentId) {
+        return commentRepository.getUserByCommentId(commentId);
+    }
 
-        @Override
-        public List<Comment> getAllCommentsByAnswer (int answerid) {
-            return CommentRepository.getAllQuestionsByUserId(answerid);
-        }
+    @Override
+    public void editCommentByCommentId(int commentId, String commentBody) {
+        commentRepository.editCommentById (commentId,commentBody);
+    }
 
-        @Override
-        public int editComment (int commentId){
-            return commentRepository.editComment(CommentId);
-        }
+    @Override
+    public void deleteCommentByCommentId(int commentId) {
+        commentRepository.deleteCommentById(commentId);
 
-        @Override
-        public void deletecomment(int commentId) {
+    }
 
-            commentRepository.deletecomment(commentId);
-        }
+    @Override
+    public List<Comment> getAllCommentsByAnswerId(int answerId) {
+        return commentRepository.getAllCommentsByAnswerId(answerId);
+    }
 
-        }
+}

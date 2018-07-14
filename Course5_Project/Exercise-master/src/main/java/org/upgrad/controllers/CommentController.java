@@ -1,35 +1,36 @@
 package org.upgrad.controllers;
 
-import ch.qos.logback.core.net.SyslogOutputStream;
-import com.google.common.base.Charsets;
-import com.google.common.hash.Hashing;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.upgrad.models.Comment;
 import org.upgrad.repositories.CommentRepository;
+import org.upgrad.services.AnswerService;
 import org.upgrad.services.CommentService;
+import org.upgrad.services.NotificationService;
 import org.upgrad.services.UserService;
 
 import javax.servlet.http.HttpSession;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 
-@org.springframework.web.bind.annotation.RestController
-@RequestMapping("/api")
+
+@RestController
 public class CommentController {
-
-    @Autowired
-    CommentRepository commentRepository;
 
     @Autowired
     CommentService commentService;
 
+    @Autowired
+    UserService userService;
+
+    @Autowired
+    NotificationService notificationService;
+
+    @Autowired
+    AnswerService answerService;
+
 
     @PostMapping("/api/comment")
-    public ResponseEntity<?> giveComment(@RequestParam("comment") String commentbody, @RequestParam("commentId") int commentId, HttpSession session) {
+    public ResponseEntity<?> giveComment(@RequestParam("comment") String commentbody, @RequestParam("answerId") int answerId, HttpSession session) {
 
         if (session.getAttribute("currUser") == null) {
             return new ResponseEntity<>("Please Login first to access this endpoint!", HttpStatus.UNAUTHORIZED);
@@ -38,9 +39,9 @@ public class CommentController {
 
             int userId = userService.getUserID((String) session.getAttribute("currUser"));
 
-            String notificationMessage = ("User with userId " + userId + " has commented your answer with answerId " + answerId);
+            String notificationMessage = ("User with userId " + userId + " has commented on your answer with answerId " + answerId);
 
-            commentService.giveComment(commentId, commentbody, userId);
+            commentService.giveComment(commentbody, userId, answerId);
 
             notificationService.sendNotificationToUser(userId, notificationMessage);
 
@@ -49,44 +50,55 @@ public class CommentController {
         }
     }
 
-    @GetMapping("/api/comment/{commentId}")
-    public ResponseEntity<?> editComment(@RequestParam("commentId") int commentId, HttpSession session) {
+    @PutMapping("/api/comment/{commentId}")
+    public ResponseEntity<?> editComment(@RequestParam("commentId") int commentId,@RequestParam("comment") String commentBody, HttpSession session) {
 
-        String userRole = userService.getCurrentUserRole((String) session.getAttribute("currUser"));
-        int userId = commentService.findUserbyanswerId(answerId);
-
-        if (session.getAttribute("currUser") == null) {
+        if (session.getAttribute("currUser")==null) {
             return new ResponseEntity<>("Please Login first to access this endpoint!", HttpStatus.UNAUTHORIZED);
-        } else if (session.getAttribute("currUser") == Admin) {
-            return new ResponseEntity<>("Comment with commentId" + commentId + "edited successfully", HttpStatus.OK);
-        } else {
-            return new ResponseEntity<>("You do not have rights to delete this answer!", HttpStatus.UNAUTHORIZED);
         }
-    }
 
-    @DeleteMapping("/api/comment/{commentId}")
-    public ResponseEntity<?> deleteComment(@RequestParam("commentId") int commentId, HttpSession session) {
+        else {
 
-        String userRole = userService.getCurrentUserRole((String) session.getAttribute("currUser"));
-        int userId = answerService.findUserByAnswerId(answerId);
+            String userRole = userService.getCurrentUserRole((String) session.getAttribute ("currUser"));
 
-        if (session.getAttribute("currUser") == null) {
-            return new ResponseEntity<>("Please Login first to access this endpoint!", HttpStatus.UNAUTHORIZED);
-        } else {
+            int userId = userService.getUserID((String) session.getAttribute("currUser"));
 
+            if(userId == (commentService.getUserByCommentId (commentId)) || userRole.equals ("admin")){
 
-            if (userId == (userService.getUserID((String) session.getAttribute("currUser"))) || userRole != null) {
-                commentService.deleteComment(commentId);
-                return new ResponseEntity<>("comment with commentId " + commentId + " deleted successfully", HttpStatus.OK);
-            } else {
-                return new ResponseEntity<>("You do not have rights to delete this answer!", HttpStatus.UNAUTHORIZED);
+                commentService.editCommentByCommentId (commentId,commentBody);
+
+                return new ResponseEntity<>("Comment with commentId " + commentId + " edited successfully", HttpStatus.OK);
+            }
+
+            else{
+                return new ResponseEntity<>("You do not have rights to edit this comment!", HttpStatus.UNAUTHORIZED);
             }
 
 
         }
-
     }
 
+
+    @DeleteMapping("/api/comment/{commentId}")
+    public ResponseEntity<?> deleteComment(@RequestParam("commentId") int commentId, HttpSession session) {
+
+        if (session.getAttribute("currUser") == null) {
+            return new ResponseEntity<>("Please Login first to access this endpoint!", HttpStatus.UNAUTHORIZED);
+        } else {
+
+            String userRole = userService.getCurrentUserRole((String) session.getAttribute("currUser"));
+            int userId = commentService.getUserByCommentId(commentId);
+
+            if (userId == (userService.getUserID((String) session.getAttribute("currUser"))) || userRole.equals ("admin")) {
+                commentService.deleteCommentByCommentId(commentId);
+                return new ResponseEntity<>("comment with commentId " + commentId + " deleted successfully", HttpStatus.OK);
+            } else {
+                return new ResponseEntity<>("You do not have rights to delete this comment!", HttpStatus.UNAUTHORIZED);
+            }
+
+        }
+
+    }
 
     @GetMapping("/api/comment/all/{answerId}")
     public ResponseEntity<?> getAllCommentsByAnswer(@RequestParam("answerId") int answerId, HttpSession session) {
@@ -95,7 +107,9 @@ public class CommentController {
         if (session.getAttribute("currUser") == null) {
             return new ResponseEntity<>("Please Login first to access this endpoint!", HttpStatus.UNAUTHORIZED);
         } else {
-            return new ResponseEntity<>(commentService.getAllCommentsByAnswer(answerId), HttpStatus.OK);
+            return new ResponseEntity<>(commentService.getAllCommentsByAnswerId(answerId), HttpStatus.OK);
         }
     }
+
+
 }
