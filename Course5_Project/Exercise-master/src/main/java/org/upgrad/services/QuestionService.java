@@ -24,6 +24,8 @@ public interface QuestionService {
 
     List<Question> getQuestionsByCategory(int categoryId);
 
+    List<Question> getAllQuestions();
+
 
     /*
     Iterable<Question> getAll();
