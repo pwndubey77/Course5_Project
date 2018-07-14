@@ -3,6 +3,7 @@
 package org.upgrad.services;
 
 import org.springframework.stereotype.Service;
+import org.upgrad.models.Notification;
 import org.upgrad.models.User;
 
 import org.upgrad.models.UserProfile;
@@ -11,6 +12,8 @@ import org.upgrad.repositories.UserRepository;
 import org.upgrad.repositories.User_Profile;
 
 import java.util.Date;
+import java.util.List;
+import java.util.Map;
 
 
 @Service
@@ -65,4 +68,27 @@ public class UserServiceImpl implements UserService {
        return user_profile.getUserProfile(id);
 
     }
+
+    @Override
+    public void deleteUserProfileById(int Id) {
+        user_profile.deleteUserProfileById(Id);
+    }
+
+    @Override
+    public void deleteUserById(int id) {
+        userRepository.deleteUserById(id);
+    }
+
+    @Override
+    public List<Map> getAllUsers() {
+       return userRepository.getUserDetails();
+    }
+
+    @Override
+    public void addCategory(String title, String desc) {
+        userRepository.addCategory(title,desc);
+    }
+
+
+
 }
