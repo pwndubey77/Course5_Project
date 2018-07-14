@@ -18,9 +18,9 @@ public class CategoryServiceImpl implements CategoryService {
 
 
     @Override
-    public void createCategory(int id , String title, String description) {
+    public void createCategory(String title, String description) {
 
-        categoryRepository.addCategoryValues (id,title, description);
+        categoryRepository.addCategoryValues (title, description);
     }
 
     @Override
