@@ -7,6 +7,7 @@ import org.upgrad.models.Question;
 import org.upgrad.repositories.QuestionRepository;
 
 
+
 @Service("QuestionService")
 public class QuestionServiceImpl implements QuestionService {
 
@@ -55,14 +56,9 @@ public class QuestionServiceImpl implements QuestionService {
     @Override
     public List<Question> getQuestionsByCategory(int categoryId) {
 
-        Set<Integer> questions =  questionRepository.getQuestionsByCategoryId (categoryId);
-        List<Question> allQuestions = new ArrayList<> ();
+        Set<Integer> questionIds = questionRepository.getQuestionsByCategoryId (categoryId);
 
-        for(int questionId : questions) {
-            allQuestions.add (questionRepository.getQuestionsByQuestionId (questionId));
-        }
-
-        return allQuestions;
+        return questionRepository.getQuestionsByQuestionId(questionIds);
     }
 
     @Override

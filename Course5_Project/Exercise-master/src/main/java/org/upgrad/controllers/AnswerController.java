@@ -65,7 +65,7 @@ public class AnswerController {
 
         else {
 
-            if(userId == (userService.getUserID ((String) session.getAttribute("currUser"))) || userRole!=null){
+            if(userId == (userService.getUserID ((String) session.getAttribute("currUser"))) || userRole.equals ("admin")){
 
                 answerService.editAnswerByAnswerId (answerId,answerBody);
                 return new ResponseEntity<>("Answer with answerId "+answerId + " edited successfully", HttpStatus.OK);

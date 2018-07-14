@@ -64,6 +64,7 @@ public class QuestionController {
     @DeleteMapping("/api/question/{questionId}")
     public ResponseEntity<?> deleteQuestionByQuestionId(@RequestParam("questionId") int questionId,HttpSession session) {
 
+        String userRole = userService.getCurrentUserRole((String) session.getAttribute("currUser"));
         if (session.getAttribute("currUser")==null) {
             return new ResponseEntity<>("Please Login first to access this endpoint!", HttpStatus.UNAUTHORIZED);
         }
@@ -72,7 +73,7 @@ public class QuestionController {
 
 
             int userId = questionService.findUserByQuestionId (questionId);
-            if(userId == (userService.getUserID ((String) session.getAttribute("currUser")))){
+            if(userId == (userService.getUserID ((String) session.getAttribute("currUser"))) || userRole.equals ("admin")){
                 questionService.deleteQuestionById (questionId);
                 return new ResponseEntity<>("Question with questionId " + questionId + " deleted successfully", HttpStatus.OK);
             }
