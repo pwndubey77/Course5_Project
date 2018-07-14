@@ -2,16 +2,11 @@
 package org.upgrad.services;
 
 import org.springframework.stereotype.Service;
-
-import java.util.List;
+import java.util.*;
 import org.upgrad.models.Question;
-import javafx.geometry.Pos;
-import org.springframework.stereotype.Service;
-import org.upgrad.models.User;
 import org.upgrad.repositories.QuestionRepository;
 
-import java.util.ArrayList;
-import java.util.List;
+
 
 @Service("QuestionService")
 public class QuestionServiceImpl implements QuestionService {
@@ -26,9 +21,15 @@ public class QuestionServiceImpl implements QuestionService {
 
 
     @Override
-    public void createQuestion(int id , String content , int userId) {
+    public void createQuestion(String content , Set<Integer> categories, int userId) {
 
-        questionRepository.addQuestionValues(id,content,userId);
+        questionRepository.addQuestionValues(content,userId);
+        int questionId = questionRepository.getLatestQuestionId ();
+        for(int category : categories) {
+
+           questionRepository.addCategory(questionId, category,Long.valueOf (questionId));
+        }
+
     }
 
     @Override
@@ -46,6 +47,25 @@ public class QuestionServiceImpl implements QuestionService {
 
         questionRepository.deleteQuestionById(questionId);
     }
+
+    @Override
+    public Question getQuestionByQuestionId(int questionId) {
+        return questionRepository.getQuestionsByQuestionId (questionId);
+    }
+
+    @Override
+    public List<Question> getQuestionsByCategory(int categoryId) {
+
+        Set<Integer> questionIds = questionRepository.getQuestionsByCategoryId (categoryId);
+
+        return questionRepository.getQuestionsByQuestionId(questionIds);
+    }
+
+    @Override
+    public List<Question> getAllQuestions() {
+        return questionRepository.getAllQuestions();
+    }
+
 
     /*
     @Override

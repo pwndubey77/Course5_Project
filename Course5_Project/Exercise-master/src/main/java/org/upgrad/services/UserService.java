@@ -25,6 +25,4 @@ public interface UserService {
     List<Map> getAllUsers();
     void addCategory(String title,String desc);
 
-
-
 }

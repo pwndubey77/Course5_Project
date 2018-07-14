@@ -49,6 +49,4 @@ public interface UserRepository extends CrudRepository<User, String> {
     @Query(nativeQuery = true,value="insert into category (title,description) values (?1,?2)")
     void addCategory(String title, String description);
 
-
-
 }

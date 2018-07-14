@@ -41,7 +41,7 @@ public class AdminController {
         }
     }
     @GetMapping("/admin/users/all")
-    public @ResponseBody ResponseEntity<?> getAllUsers(HttpSession session)
+    public ResponseEntity<?> getAllUsers(HttpSession session)
     {
         if(session.getAttribute("currUser")==null)
             return new ResponseEntity<>("Please Login first to access this endpoint", HttpStatus.FORBIDDEN);
@@ -57,6 +57,7 @@ public class AdminController {
             return new ResponseEntity<>("You do not have rights to access all users!", HttpStatus.FORBIDDEN);
 
     }
+
     @PostMapping("/admin/category")
     public ResponseEntity<?> categoriesCreation(@RequestParam  String categoryTitle,@RequestParam String description,HttpSession session)
     {
