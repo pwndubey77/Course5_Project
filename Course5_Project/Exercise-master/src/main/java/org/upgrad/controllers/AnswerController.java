@@ -6,6 +6,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.upgrad.models.User;
 import org.upgrad.services.AnswerService;
+import org.upgrad.services.NotificationService;
 import org.upgrad.services.QuestionService;
 import org.upgrad.services.UserService;
 
@@ -23,6 +24,9 @@ public class AnswerController {
     @Autowired
     AnswerService answerService;
 
+    @Autowired
+    NotificationService notificationService;
+
 
     @PostMapping("api/answer")
     public ResponseEntity<?> createQuestion(@RequestParam("answer") String answerBody,@RequestParam("questionId") int questionId,HttpSession session) {
@@ -34,10 +38,14 @@ public class AnswerController {
         else {
 
 
+            int userId = userService.getUserID((String) session.getAttribute ("currUser"));
+
+            String notificationMessage = ("User with userId " + userId + " has answered your question with questionId " + questionId);
+
             answerService.addAnswer (answerBody,questionService.findUserByQuestionId (questionId),questionId);
 
-            //notifcation to user who asked question
-            //notificationservices- message (question answerwed by USER - CurrUser-details ....)
+            notificationService.sendNotificationToUser (userId,notificationMessage);
+
             return new ResponseEntity<>("Answer to questionId "+questionId + " added successfully", HttpStatus.OK);
 
         }
