@@ -1,22 +1,15 @@
 package org.upgrad.services;
-import java.util.List;
-import java.util.Set;
 import org.springframework.stereotype.Service;
-import org.upgrad.models.Comment;
-import javafx.geometry.Pos;
-import org.upgrad.models.answer;
-import org.upgrad.models.question;
-import org.upgrad.models.User;
 
 @Service("CommentService")
 public interface CommentService {
 
-    void giveComment (int id , String content , int userId);
+    void giveComment (String content , int userId, int answerId);
 
-    List<Comment> getAllCommentsByAnswer(int answerid);
+   // List<Comment> getAllCommentsByAnswer(int answerid);
 
-    void deleteComment(int id);
+    //void deleteComment(int id);
 
-    Answer editComment (int answerId);
+    //Answer editComment (int answerId);
 
 }

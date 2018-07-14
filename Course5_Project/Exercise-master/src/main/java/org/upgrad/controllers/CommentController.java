@@ -1,24 +1,19 @@
 package org.upgrad.controllers;
 
-import ch.qos.logback.core.net.SyslogOutputStream;
-import com.google.common.base.Charsets;
-import com.google.common.hash.Hashing;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.upgrad.models.Comment;
 import org.upgrad.repositories.CommentRepository;
+import org.upgrad.services.AnswerService;
 import org.upgrad.services.CommentService;
+import org.upgrad.services.NotificationService;
 import org.upgrad.services.UserService;
 
 import javax.servlet.http.HttpSession;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 
-@org.springframework.web.bind.annotation.RestController
-@RequestMapping("/api")
+
+@RestController
 public class CommentController {
 
     @Autowired
@@ -27,9 +22,18 @@ public class CommentController {
     @Autowired
     CommentService commentService;
 
+    @Autowired
+    UserService userService;
+
+    @Autowired
+    NotificationService notificationService;
+
+    @Autowired
+    AnswerService answerService;
+
 
     @PostMapping("/api/comment")
-    public ResponseEntity<?> giveComment(@RequestParam("comment") String commentbody, @RequestParam("commentId") int commentId, HttpSession session) {
+    public ResponseEntity<?> giveComment(@RequestParam("comment") String commentbody, @RequestParam("answerId") int answerId, HttpSession session) {
 
         if (session.getAttribute("currUser") == null) {
             return new ResponseEntity<>("Please Login first to access this endpoint!", HttpStatus.UNAUTHORIZED);
@@ -38,9 +42,9 @@ public class CommentController {
 
             int userId = userService.getUserID((String) session.getAttribute("currUser"));
 
-            String notificationMessage = ("User with userId " + userId + " has commented your answer with answerId " + answerId);
+            String notificationMessage = ("User with userId " + userId + " has commented on your answer with answerId " + answerId);
 
-            commentService.giveComment(commentId, commentbody, userId);
+            commentService.giveComment(commentbody, userId, answerId);
 
             notificationService.sendNotificationToUser(userId, notificationMessage);
 
@@ -48,7 +52,7 @@ public class CommentController {
 
         }
     }
-
+/*
     @GetMapping("/api/comment/{commentId}")
     public ResponseEntity<?> editComment(@RequestParam("commentId") int commentId, HttpSession session) {
 
@@ -98,4 +102,7 @@ public class CommentController {
             return new ResponseEntity<>(commentService.getAllCommentsByAnswer(answerId), HttpStatus.OK);
         }
     }
+
+    */
+
 }

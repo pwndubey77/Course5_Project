@@ -4,10 +4,8 @@ import java.util.*;
 import org.upgrad.models.Comment;
 import org.upgrad.repositories.CommentRepository;
 
-public class CommentServiceImpl {
-
-    @Service("CommentService")
-    public class CommentServiceImpl implements CommentService {
+@Service("CommentService")
+public class CommentServiceImpl implements CommentService {
 
         private final CommentRepository commentRepository;
 
@@ -17,10 +15,10 @@ public class CommentServiceImpl {
         }
 
         @Override
-        public void giveQuestion(int commentId , String content ,int userId) {
-            commentRepository.addcommentValues(commentId,content,userId);
+        public void giveComment(String content ,int userId,int answerId) {
+            commentRepository.addCommentValues(content,userId,answerId);
         }
-
+/*
         @Override
         public List<Comment> getAllCommentsByAnswer (int answerid) {
             return CommentRepository.getAllQuestionsByUserId(answerid);
@@ -36,5 +34,7 @@ public class CommentServiceImpl {
 
             commentRepository.deletecomment(commentId);
         }
+*/
 
-        }
+
+}
