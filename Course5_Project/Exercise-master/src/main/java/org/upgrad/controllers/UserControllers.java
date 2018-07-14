@@ -7,14 +7,17 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.upgrad.models.Notification;
 import org.upgrad.models.User;
 import org.upgrad.repositories.UserRepository;
+import org.upgrad.services.NotificationService;
 import org.upgrad.services.UserService;
 
 import javax.servlet.http.HttpSession;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 
 @org.springframework.web.bind.annotation.RestController
 @RequestMapping("/api")
@@ -25,6 +28,9 @@ public class UserControllers {
 
     @Autowired
     UserService userService;
+
+    @Autowired
+    NotificationService notificationService;
 
     @GetMapping("/user/signup")
     public ResponseEntity<String> signup(@RequestParam String userName, @RequestParam String password, @RequestParam String email,
@@ -54,12 +60,12 @@ public class UserControllers {
     }
 
     @PostMapping("/users/signin")
-    public ResponseEntity<String> signup(@RequestParam String userName, @RequestParam String password,HttpSession session)
+    public ResponseEntity<String> signin(@RequestParam String userName, @RequestParam String password,HttpSession session)
     {
 
             String usernameByUser = userRepository.findUsername(userName);
             String passwordByUser = Hashing.sha256().hashString(password, Charsets.US_ASCII).toString();
-            //String passwordByUser=userService.getPassword(password);
+            String passwordFromDB=userService.getPassword(userName);
             String userRole=userService.getCurrentUserRole(userName);
             if (usernameByUser == null) {
                 return new ResponseEntity<>("Username not exist ",HttpStatus.UNAUTHORIZED);
@@ -69,15 +75,19 @@ public class UserControllers {
                 return new ResponseEntity<>("Invalid Credential ",HttpStatus.UNAUTHORIZED);
 
             }
-            if(userRole!=null)
+            if(userRole!=null && userRole.equalsIgnoreCase("ADMIN") && passwordByUser.equals(passwordFromDB))
             {
                 session.setAttribute("currUser",userName);
                 return new ResponseEntity<>("You have logged in as admin!", HttpStatus.OK);
             }
+            else if(passwordByUser.equals(passwordFromDB)) {
 
-            session.setAttribute("currUser",userName);
+                session.setAttribute("currUser", userName);
 
-            return new ResponseEntity<>("You have logged in successfully!", HttpStatus.OK);
+                return new ResponseEntity<>("You have logged in successfully!", HttpStatus.OK);
+            }
+            else
+                return new ResponseEntity<>("Incorrect Credential", HttpStatus.UNAUTHORIZED);
     }
 
     @PostMapping("/user/logout")
@@ -106,6 +116,45 @@ public class UserControllers {
               return new ResponseEntity<>("User Profile not found!",HttpStatus.FORBIDDEN);
         }
     }
-    
+    @PostMapping("/user/notification/new")
+    public ResponseEntity<?> getUnreadNotifications(HttpSession session)
+    {
+        if(session.getAttribute("currUser")==null)
+            return new ResponseEntity<>("Please Login first to access this endpoint", HttpStatus.FORBIDDEN);
+        String user=session.getAttribute("currUser").toString();
+        int userId= userService.getUserID(user);
+        List itr= notificationService.getAllUnreadNotificationByUser(userId,Boolean.FALSE);
+        if(itr.size()!=0)
+        {
+            ResponseEntity<?> resp= new ResponseEntity<>(notificationService.getAllUnreadNotificationByUser(userId,Boolean.TRUE),HttpStatus.OK);
+            notificationService.setReadFlag(userId);
+            return resp;
+        }
+        else
+        {
+            return  new ResponseEntity<>("No New Notifications found",HttpStatus.OK);
+        }
+    }
+    @GetMapping("/user/notification/all")
+    public ResponseEntity<?> getAllNotifications(HttpSession session)
+    {
+
+        if(session.getAttribute("currUser")==null)
+            return new ResponseEntity<>("Please Login first to access this endpoint", HttpStatus.FORBIDDEN);
+        String user=session.getAttribute("currUser").toString();
+        int userId= userService.getUserID(user);
+       // List lst=notificationService.getAllNotification(userId);
+        if(notificationService.getAllNotification(userId).iterator().hasNext())
+        {
+            ResponseEntity<?> resp= new ResponseEntity<>(notificationService.getAllNotification(userId),HttpStatus.OK);
+            notificationService.setReadFlag(userId);
+            return resp;
+        }
+        else
+        {
+            return  new ResponseEntity<>("No New Notifications found",HttpStatus.OK);
+        }
+
+    }
 
 }
