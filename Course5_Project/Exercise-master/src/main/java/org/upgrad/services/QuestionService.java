@@ -12,7 +12,7 @@ import org.upgrad.models.User;
 @Service("QuestionService")
 public interface QuestionService {
 
-    void createQuestion(int id , String content , Set<Integer> categories, int userId);
+    void createQuestion(String content , Set<Integer> categories, int userId);
 
     List<Question> getAllQuestionsByUser(int userId);
 
@@ -23,6 +23,8 @@ public interface QuestionService {
     Question getQuestionByQuestionId(int questionId);
 
     List<Question> getQuestionsByCategory(int categoryId);
+
+    List<Question> getAllQuestions();
 
 
     /*

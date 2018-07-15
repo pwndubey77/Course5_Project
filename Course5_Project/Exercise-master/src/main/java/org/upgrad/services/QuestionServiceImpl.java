@@ -7,6 +7,7 @@ import org.upgrad.models.Question;
 import org.upgrad.repositories.QuestionRepository;
 
 
+
 @Service("QuestionService")
 public class QuestionServiceImpl implements QuestionService {
 
@@ -20,13 +21,15 @@ public class QuestionServiceImpl implements QuestionService {
 
 
     @Override
-    public void createQuestion(int questionId , String content , Set<Integer> categories, int userId) {
+    public void createQuestion(String content , Set<Integer> categories, int userId) {
 
-        questionRepository.addQuestionValues(questionId,content,userId);
+        questionRepository.addQuestionValues(content,userId);
+        int questionId = questionRepository.getLatestQuestionId ();
         for(int category : categories) {
-           Long idQuestionCategory = System.currentTimeMillis() % 1000;
-           questionRepository.addCategory(idQuestionCategory.intValue (), questionId, category,Long.valueOf (questionId));
+
+           questionRepository.addCategory(questionId, category,Long.valueOf (questionId));
         }
+
     }
 
     @Override
@@ -53,14 +56,14 @@ public class QuestionServiceImpl implements QuestionService {
     @Override
     public List<Question> getQuestionsByCategory(int categoryId) {
 
-        Set<Integer> questions =  questionRepository.getQuestionsByCategoryId (categoryId);
-        List<Question> allQuestions = new ArrayList<> ();
+        Set<Integer> questionIds = questionRepository.getQuestionsByCategoryId (categoryId);
 
-        for(int questionId : questions) {
-            allQuestions.add (questionRepository.getQuestionsByQuestionId (questionId));
-        }
+        return questionRepository.getQuestionsByQuestionId(questionIds);
+    }
 
-        return allQuestions;
+    @Override
+    public List<Question> getAllQuestions() {
+        return questionRepository.getAllQuestions();
     }
 
 

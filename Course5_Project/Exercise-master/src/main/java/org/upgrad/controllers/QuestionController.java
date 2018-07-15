@@ -32,24 +32,6 @@ public class QuestionController {
     @Autowired
     CategoryService categoryService;
 
-/*
-    @PostMapping("api/question")
-    public ResponseEntity<?> createQuestion(@RequestParam("content") String body, HttpSession session) {
-
-        if (session.getAttribute("currUser")==null) {
-            return new ResponseEntity<>("Please Login first to access this endpoint!", HttpStatus.UNAUTHORIZED);
-        }
-
-        else {
-
-            Long id = System.currentTimeMillis() % 1000;
-            questionService.createQuestion (id.intValue (), body,userService.getUserID ((String) session.getAttribute("currUser")));
-            return new ResponseEntity<>("Question added successfully", HttpStatus.OK);
-
-        }
-    }
-    */
-
     @PostMapping("api/question")
     public ResponseEntity<?> createQuestion(@RequestParam("content") String body,@RequestParam("categoryId") Set<Integer> categories, HttpSession session) {
 
@@ -57,15 +39,9 @@ public class QuestionController {
                 return new ResponseEntity<>("Please Login first to access this endpoint!", HttpStatus.UNAUTHORIZED);
         }
 
-        else { // null check not working category is created everytime ?
-                for(int category: categories){
-                    if(categoryService.getCategory(category) == null){
-                        categoryService.createCategory (category,"By user","New category");
-                    }
-                }
+        else {
 
-                Long id = System.currentTimeMillis() % 1000;
-                questionService.createQuestion (id.intValue (), body,categories,userService.getUserID ((String) session.getAttribute("currUser")));
+                questionService.createQuestion (body,categories,userService.getUserID ((String) session.getAttribute("currUser")));
 
                 return new ResponseEntity<>("Question added successfully", HttpStatus.OK);
 
@@ -88,15 +64,17 @@ public class QuestionController {
     @DeleteMapping("/api/question/{questionId}")
     public ResponseEntity<?> deleteQuestionByQuestionId(@RequestParam("questionId") int questionId,HttpSession session) {
 
+
         if (session.getAttribute("currUser")==null) {
             return new ResponseEntity<>("Please Login first to access this endpoint!", HttpStatus.UNAUTHORIZED);
         }
 
         else {
 
+            String userRole = userService.getCurrentUserRole((String) session.getAttribute("currUser"));
 
             int userId = questionService.findUserByQuestionId (questionId);
-            if(userId == (userService.getUserID ((String) session.getAttribute("currUser")))){
+            if(userId == (userService.getUserID ((String) session.getAttribute("currUser"))) || userRole.equals ("admin")){
                 questionService.deleteQuestionById (questionId);
                 return new ResponseEntity<>("Question with questionId " + questionId + " deleted successfully", HttpStatus.OK);
             }
