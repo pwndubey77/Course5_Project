@@ -8,27 +8,27 @@ https://github.com/Upgradgroupproject/Course5_Project/tree/master/Course5_Projec
 ## APIs
 ### The project provides following APIs
 
-## User
-### User signup signin with user profile signout
-## Admin
-### Modifying users/questions/answers
-## Question
-### Adding Modifying questions
-## Answer
-### Adding Modifying answers
-## Comment
-### Adding comments
-## Like and Follow
-### Like answer or follow category
-## Common
-### check existing questions and categories
+### User
+#### User signup signin with user profile signout
+### Admin
+#### Modifying users/questions/answers
+### Question
+#### Adding Modifying questions
+### Answer
+#### Adding Modifying answers
+### Comment
+#### Adding comments
+### Like and Follow
+#### Like answer or follow category
+### Common
+#### check existing questions and categories
 
 
 ## Model
 ### Contains all the Java classes and mapping
 ## Services
-### These are used to call methods 
+### All the service for respective class - methods 
 ## Repository
-### CRUD operations( A repository is usually used to organize a single project.)
+### CRUD operations for respecitive entries
 ## Controllers
-### RESTcontrollers for java classes  connecting the model and the view.
+### RESTcontrollers for java classes connecting the model and the view.
