@@ -36,4 +36,7 @@ public interface AnswerRepository extends CrudRepository<Answer,String>{
     @Modifying
     @Query(nativeQuery = true,value="delete from answer where id=?1 ")
     void deleteAnswerByAnswerId(int answerId);
+
+    @Query(nativeQuery = true,value ="select * from answer where question_id = ?1")
+    List<Answer> getAllAnswersByLikes(int questionId);
 }
