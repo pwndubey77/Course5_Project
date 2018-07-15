@@ -18,11 +18,11 @@ public interface UserService {
     String getCurrentUserRole(String username);
     void createUser(String username,String email,String password);
     int getUserID(String username);
-    void userProfileDetails(int user_id, String firstName, String lastName, String aboutMe, Date dob, String contactNumber, String country);
-    public Iterable<UserProfile> getUserProfile(int id);
-    void deleteUserProfileById(int Id);
+
     void deleteUserById(int id);
     List<Map> getAllUsers();
     void addCategory(String title,String desc);
+    public String findUserPassword(String username);
+    public String findUserRole(String username);
 
 }
