@@ -32,22 +32,48 @@ public class QuestionController {
     @Autowired
     CategoryService categoryService;
 
+    /*
+     * API - createQuestion
+     *
+     * @parameter "content" and "categorId"is provided by user and,session (HttpSession ) gives details of session
+     *
+     * -- Session details are checked for authentication - if fails -> Unauthorized - goes to return httpStatus,
+     *                                                       - if pass -> call respective services ,
+     *
+     * -- questionService called to add entry with questionBody,categories and user to add entries in database
+     *
+     * -- return response body + HttpStatus
+     *
+     */
     @PostMapping("api/question")
     public ResponseEntity<?> createQuestion(@RequestParam("content") String body,@RequestParam("categoryId") Set<Integer> categories, HttpSession session) {
 
         if (session.getAttribute("currUser")==null) {
-                return new ResponseEntity<>("Please Login first to access this endpoint!", HttpStatus.UNAUTHORIZED);
+            return new ResponseEntity<>("Please Login first to access this endpoint!", HttpStatus.UNAUTHORIZED);
         }
 
         else {
 
-                questionService.createQuestion (body,categories,userService.getUserID ((String) session.getAttribute("currUser")));
+            questionService.createQuestion (body,categories,userService.getUserID ((String) session.getAttribute("currUser")));
 
-                return new ResponseEntity<>("Question added successfully", HttpStatus.OK);
+            return new ResponseEntity<>("Question added successfully", HttpStatus.OK);
 
         }
     }
 
+    /*
+     * API - getAllQuestionsByUser
+     *
+     *    session (HttpSession ) gives details of session
+     *
+     * -- Session details are checked for authentication - if fails -> Unauthorized - goes to return httpStatus,
+     *                                                   - if pass -> questionService
+     *
+     * -- questionService checks entries of questions from database with respect to the user
+     *
+     * -- return response body + HttpStatus
+     *
+     */
 
     @GetMapping("/api/question/all")
     public ResponseEntity<?> getAllQuestionsByUser(HttpSession session) {
@@ -61,6 +87,19 @@ public class QuestionController {
         }
     }
 
+    /*
+     * API - deleteQuestionByQuestionId
+     *
+     *    @prameter "questionId" is provided by user and session (HttpSession ) gives details of session
+     *
+     * -- Session details are checked for authentication - if fails -> Unauthorized - goes to return httpStatus,
+     *                                                   - if pass -> call user service to authenticate user is admin/user (who added the question)
+     *
+     * -- questionService deletes entries for question from database with respect to the user
+     *
+     * -- return response body + HttpStatus
+     *
+     */
     @DeleteMapping("/api/question/{questionId}")
     public ResponseEntity<?> deleteQuestionByQuestionId(@RequestParam("questionId") int questionId,HttpSession session) {
 
@@ -71,23 +110,39 @@ public class QuestionController {
 
         else {
 
-            String userRole = userService.getCurrentUserRole((String) session.getAttribute("currUser"));
+            if(questionService.checkQuestionEntry (questionId) > 0){
+                String userRole = userService.getCurrentUserRole((String) session.getAttribute("currUser"));
 
-            int userId = questionService.findUserByQuestionId (questionId);
-            if(userId == (userService.getUserID ((String) session.getAttribute("currUser"))) || userRole.equals ("admin")){
-                questionService.deleteQuestionById (questionId);
-                return new ResponseEntity<>("Question with questionId " + questionId + " deleted successfully", HttpStatus.OK);
+                int userId = questionService.findUserByQuestionId (questionId);
+                if(userId == (userService.getUserID ((String) session.getAttribute("currUser"))) || userRole.equalsIgnoreCase ("admin")){
+                    questionService.deleteQuestionById (questionId);
+                    return new ResponseEntity<>("Question with questionId " + questionId + " deleted successfully", HttpStatus.OK);
+                }
+
+                else{
+                    return new ResponseEntity<>("You do not have rights to delete this question!", HttpStatus.FORBIDDEN);
+                }
             }
-
             else{
-                return new ResponseEntity<>("You do not have rights to delete this question!", HttpStatus.UNAUTHORIZED);
+                return new ResponseEntity<>("There is no Question with questionId " + questionId, HttpStatus.NOT_FOUND);
             }
-
-
         }
 
     }
 
+    /*
+     * API - deleteQuestionByQuestionId
+     *
+     *    @parameter "categoryId" is provided by user and session (HttpSession ) gives details of session
+     *
+     * -- Session details are checked for authentication - if fails -> Unauthorized - goes to return httpStatus,
+     *                                                   - if pass -> questionservice
+     *
+     * -- questionService checks entries of questions from database with respect to the category
+     *
+     * -- return response body + HttpStatus
+     *
+     */
     @GetMapping("/api/question/all/{categoryId}")
     public ResponseEntity<?> getAllQuestionsByCategory(@RequestParam("categoryId") int categoryId, HttpSession session) {
 

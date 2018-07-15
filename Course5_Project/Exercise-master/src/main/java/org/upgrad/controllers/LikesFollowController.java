@@ -30,6 +30,21 @@ public class LikesFollowController {
     @Autowired
     NotificationService notificationService;
 
+    /*
+     * API - giveLikes
+     *
+     * @parameter "answerId" is provided by user and,session (HttpSession ) gives details of session
+     *
+     * -- Session details are checked for authentication - if fails -> Unauthorized - goes to return httpStatus,
+     *                                                   - if pass -> call user service for user details ,
+     *
+     * -- likeSrvice called to check if liked or not - if yes - return HttpStatus.forbidden (already liked)
+     *
+     * -- if not liked before - likeService adds entry in database -> add like
+     *
+     * -- return response body + HttpStatus
+     *
+     */
     @PostMapping("/api/like/{answerId}")
     public ResponseEntity<?> giveLikes (@RequestParam("answerId") int answerId, HttpSession session){
 
@@ -54,7 +69,7 @@ public class LikesFollowController {
 
                 notificationService.sendNotificationToUser(currentUser, notificationMessage);
 
-                return new ResponseEntity<>("answerId " + answerId + " liked successfully", HttpStatus.OK);
+                return new ResponseEntity<>("answerId " + answerId + " liked successfully", HttpStatus.CREATED);
 
             }
 
@@ -63,6 +78,21 @@ public class LikesFollowController {
     }
 
 
+    /*
+     * API - unlike
+     *
+     * @parameter "answerId" is provided by user and,session (HttpSession ) gives details of session
+     *
+     * -- Session details are checked for authentication - if fails -> Unauthorized - goes to return httpStatus,
+     *                                                   - if pass -> call user service for user details ,
+     *
+     * -- likeService called to check if liked or not - if not - return httpstatus.forbidded,
+     *
+     * -- if like exists - like service deletes entry from database -> unlike
+     *
+     * -- return response body + HttpStatus
+     *
+     */
     @DeleteMapping("/api/unlike/{answerId}")
     public ResponseEntity<?> unlike (@RequestParam("answerId") int answerId, HttpSession session){
 
@@ -86,6 +116,21 @@ public class LikesFollowController {
     }
 
 
+    /*
+     * API - addFollowCategory
+     *
+     * @parameter "categoryId" is provided by user and,session (HttpSession ) gives details of session
+     *
+     * -- Session details are checked for authentication - if fails -> Unauthorized - goes to return httpStatus,
+     *                                                   - if pass -> call user service for user details ,
+     *
+     * -- followService called to check if followed or not - if yes - return HttpStatus.forbidden (already followed)
+     *
+     * -- if not followed before - likeService adds entry in database -> followCategory
+     *
+     * -- return response body + HttpStatus
+     *
+     */
     @PostMapping("/api/follow/{categoryId}")
     public ResponseEntity<?> addFollowCategory (@RequestParam("categoryId") int categoryId, HttpSession session){
 
@@ -103,13 +148,28 @@ public class LikesFollowController {
             else{
 
                 followService.followCategory(currentUser,categoryId);
-                return new ResponseEntity<>("category "+categoryId+" followed successfully", HttpStatus.OK);
+                return new ResponseEntity<>("category "+categoryId+" followed successfully", HttpStatus.CREATED);
             }
 
         }
     }
 
 
+    /*
+     * API - unFollow
+     *
+     * @parameter "categoryId" is provided by user and,session (HttpSession ) gives details of session
+     *
+     * -- Session details are checked for authentication - if fails -> Unauthorized - goes to return httpStatus,
+     *                                                   - if pass -> call user service for user details ,
+     *
+     * -- followservice called to check if liked or not - if not - return httpstatus.forbidded,
+     *
+     * -- if follow exists - follow service deletes entry from database -> unFollow
+     *
+     * -- return response body + HttpStatus
+     *
+     */
     @DeleteMapping("/api/unfollow/{categoryId}")
     public ResponseEntity<?> unFollow (@RequestParam("categoryId") int categoryId, HttpSession session){
         if (session.getAttribute("currUser")==null) {

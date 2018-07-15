@@ -10,7 +10,7 @@ import javax.transaction.Transactional;
 import java.util.List;
 
 @Repository
-public interface CommentRepository extends CrudRepository<Comment,String>{
+public interface CommentRepository extends CrudRepository<Comment,Integer>{
 
     @Transactional
     @Modifying

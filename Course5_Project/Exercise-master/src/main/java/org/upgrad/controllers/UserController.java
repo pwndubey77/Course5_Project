@@ -21,7 +21,7 @@ import java.util.List;
 
 @org.springframework.web.bind.annotation.RestController
 @RequestMapping("/api")
-public class UserControllers {
+public class UserController {
 
     @Autowired
     UserRepository userRepository;
@@ -32,7 +32,21 @@ public class UserControllers {
     @Autowired
     NotificationService notificationService;
 
-    @GetMapping("/user/signup")
+    /*
+      *This Api is to make user signup for the program
+      * The API checks for username and Email first and returns the error message in case the two fields are already taken
+      * @Param UserName:the users,s username
+      * @Param password:the users,s username
+      * @Param email:User,s email
+      * @Param firstName:Uesr's Firstname
+      * @Param lastName:User's lastname
+      * @Param aboutMe:Desription
+      * @Param dob:Date of birth
+      * @Param contactNumber:user's contact number
+      * @Param country:country
+
+     */
+    @PostMapping("/user/signup")
     public ResponseEntity<String> signup(@RequestParam String userName, @RequestParam String password, @RequestParam String email,
                                          @RequestParam String firstName, String lastName, String aboutMe,
                                          @RequestParam String dob,  String contactNumber, @RequestParam String country) throws ParseException {
@@ -58,6 +72,12 @@ public class UserControllers {
            return new ResponseEntity<>("User created!", HttpStatus.OK);
          }
     }
+    /*
+    *This API enables user to sign in
+    * This will validate the users credential and sign them in
+    * @Param userName
+    * @Param password
+     */
 
     @PostMapping("/users/signin")
     public ResponseEntity<String> signin(@RequestParam String userName, @RequestParam String password,HttpSession session)
@@ -90,6 +110,9 @@ public class UserControllers {
                 return new ResponseEntity<>("Incorrect Credential", HttpStatus.UNAUTHORIZED);
     }
 
+    /*
+    *This API will end user's session
+     */
     @PostMapping("/user/logout")
     public ResponseEntity<String> signout(HttpSession session)
     {
@@ -101,6 +124,10 @@ public class UserControllers {
             }
     }
 
+    /*
+    *This API will get the user's profile based on the userID provided
+    * @PathVariable:userID
+     */
     @GetMapping("/user/userprofile/{userId}")
     public ResponseEntity<?> getUserProfile(@PathVariable("userId") int userId,HttpSession session)
     {
@@ -116,6 +143,10 @@ public class UserControllers {
               return new ResponseEntity<>("User Profile not found!",HttpStatus.FORBIDDEN);
         }
     }
+    /*
+    *This API will provide all the unread notifications for the current User
+    * This will also make the all unread notification as read
+     */
     @PostMapping("/user/notification/new")
     public ResponseEntity<?> getUnreadNotifications(HttpSession session)
     {
@@ -135,6 +166,10 @@ public class UserControllers {
             return  new ResponseEntity<>("No New Notifications found",HttpStatus.OK);
         }
     }
+    /*
+     *This API will provide all the  notifications for the current User
+     * This will also make the all unread notification as read
+     */
     @GetMapping("/user/notification/all")
     public ResponseEntity<?> getAllNotifications(HttpSession session)
     {

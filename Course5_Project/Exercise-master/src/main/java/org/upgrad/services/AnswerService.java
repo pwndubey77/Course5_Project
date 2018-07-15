@@ -24,4 +24,7 @@ public interface AnswerService {
     void deleteAnswerById(int answerId);
 
     List<Map> getAllAnswersByLikes(int questionId,int userId);
+
+    public int checkAnswerEntry(int answerId);
+
 }

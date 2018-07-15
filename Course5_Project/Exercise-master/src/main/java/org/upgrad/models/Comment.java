@@ -30,6 +30,14 @@ public class Comment {
 
     public Comment(){}
 
+    public Comment(String content, int answerId, int userId, Date date, Date modifiedOn) {
+        this.content = content;
+        this.answerId = answerId;
+        this.userId = userId;
+        this.date = date;
+        this.modifiedOn = modifiedOn;
+    }
+
     public int getId() {
         return id;
     }

@@ -11,7 +11,7 @@ import javax.transaction.Transactional;
 import java.util.Date;
 
 @Repository
-public interface User_Profile extends CrudRepository<UserProfile, String> {
+public interface UserProfileRepository extends CrudRepository<UserProfile, String> {
 
     @Transactional
     @Modifying
