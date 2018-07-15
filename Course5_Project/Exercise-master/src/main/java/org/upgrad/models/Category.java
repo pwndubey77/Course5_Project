@@ -1,12 +1,11 @@
 package org.upgrad.models;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
-import java.util.List;
 
 
 @Entity
+@Table(name="category")
 public class Category {
 
     @Id
@@ -48,9 +47,4 @@ public class Category {
 
     }
 
-    public Category(int id, String title,String description) {
-        this.id = id;
-        this.title = title;
-        this.description = description;
-    }
 }

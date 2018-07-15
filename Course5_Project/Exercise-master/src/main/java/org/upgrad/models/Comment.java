@@ -16,10 +16,10 @@ public class Comment {
     private String content;
 
     @Column(name = "answer_id")
-    private int answerid;
+    private int answerId;
 
     @Column(name = "user_id")
-    private int userid;
+    private int userId;
 
     @Column(name="date")
     private Date date;
@@ -29,11 +29,6 @@ public class Comment {
 
 
     public Comment(){}
-
-    public Comment(int commentId)
-    {
-        this.id=commentId;
-    }
 
     public int getId() {
         return id;
@@ -52,19 +47,19 @@ public class Comment {
     }
 
     public int getAnswerid() {
-        return answerid;
+        return answerId;
     }
 
     public void setAnswerid(int answerid) {
-        this.answerid = answerid;
+        this.answerId = answerid;
     }
 
     public int getUserid() {
-        return userid;
+        return userId;
     }
 
     public void setUserid(int userid) {
-        this.userid = userid;
+        this.userId = userid;
     }
 
     public Date getDate() {
