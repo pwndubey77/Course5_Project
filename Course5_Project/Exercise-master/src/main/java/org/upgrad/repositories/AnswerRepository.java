@@ -8,6 +8,7 @@ import org.upgrad.models.Answer;
 
 import javax.transaction.Transactional;
 import java.util.List;
+import java.util.Map;
 
 @Repository
 public interface AnswerRepository extends CrudRepository<Answer,String>{
@@ -36,4 +37,7 @@ public interface AnswerRepository extends CrudRepository<Answer,String>{
     @Modifying
     @Query(nativeQuery = true,value="delete from answer where id=?1 ")
     void deleteAnswerByAnswerId(int answerId);
+
+    @Query(nativeQuery = true,value ="select ANSWER.ans,ANSWER.date,ANSWER.user_id,ANSWER.question_id,ANSWER.modifiedOn,count(*) from ANSWER,LIKES where ANSWER.ID=LIKES.answer_id and Answer.question_id=(?1) and LIKES.USER_ID=(?2) group by Answer.id order by count(*) desc")
+    List<Map> getAllAnswersByLikes(int questionId,int userId);
 }
