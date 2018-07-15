@@ -39,7 +39,7 @@ public interface UserRepository extends CrudRepository<User, String> {
     @Transactional
     @Modifying
     @Query(nativeQuery = true,value="delete from users where id=?1 ")
-    void deleteUserById(int id);
+    public void deleteUserById(int id);
 
     @Query(nativeQuery = true,value="select id,username,email from Users")
     List<Map> getUserDetails();
