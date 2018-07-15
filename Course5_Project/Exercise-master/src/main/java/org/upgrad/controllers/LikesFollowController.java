@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.upgrad.repositories.LikeRepository;
 import org.upgrad.services.FollowService;
 import org.upgrad.services.LikeService;
 import org.upgrad.services.NotificationService;
@@ -47,7 +48,7 @@ public class LikesFollowController {
         }
     }
 
-    //problem in query get user entry...
+
     @DeleteMapping("/api/unlike/{answerId}")
     public ResponseEntity<?> unlike (@RequestParam("answerId") int answerId, HttpSession session){
 
@@ -57,12 +58,11 @@ public class LikesFollowController {
 
 
             int currentUser = userService.getUserID ((String) session.getAttribute ("currUser"));
-            int checkforUserLike = likeService.checkForUserInLikedByList(currentUser);
-            if(checkforUserLike > 0){
+            int checkForUserLike = likeService.checkForUserInLikedByList(currentUser,answerId);
+            if(checkForUserLike > 0){
 
-                likeService.unlikeAnswer(checkforUserLike);
-                return new ResponseEntity<>("You have unliked answer with answerId" +answerId+ " successfully", HttpStatus.OK);
-
+                likeService.unlikeAnswer(currentUser,answerId);
+                return new ResponseEntity<>("You have unliked answer with answerId " +answerId+ " successfully", HttpStatus.OK);
             }
             else{
                 return new ResponseEntity<>("You have not liked this answer", HttpStatus.UNAUTHORIZED);

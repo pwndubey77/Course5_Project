@@ -4,7 +4,7 @@ public interface LikeService {
 
     void addLikesByUserForAnswerId(int currentUser, int answerId);
 
-    int checkForUserInLikedByList(int currentUser);
+    int checkForUserInLikedByList(int currentUser, int answerId);
 
-    void unlikeAnswer(int answerId);
+    void unlikeAnswer(int userId,int answerId);
 }

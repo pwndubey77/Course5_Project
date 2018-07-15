@@ -20,13 +20,20 @@ public class LikeServiceImpl implements LikeService{
     }
 
     @Override
-    public int checkForUserInLikedByList(int currentUser) {
-        return likeRepository.checkForUserInLikedByEntries(currentUser);
+    public int checkForUserInLikedByList(int currentUser,int answerId) {
+        Long like_id = likeRepository.checkForUserInLikedByEntries(currentUser,answerId);
+
+        if(like_id == null){
+            return 0;
+        }
+        else
+            return like_id.intValue ();
+
     }
 
     @Override
-    public  void unlikeAnswer(int likeRecord) {
-        likeRepository.unlikeAnswer(likeRecord);
+    public  void unlikeAnswer(int userId,int answerId) {
+        likeRepository.unlikeAnswer(userId,answerId);
 
     }
 }
