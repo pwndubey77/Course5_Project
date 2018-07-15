@@ -24,11 +24,11 @@ https://github.com/Upgradgroupproject/Course5_Project/tree/master/Course5_Projec
 #### check existing questions and categories
 
 
-## Model
-### Contains all the Java classes and mapping
-## Services
-### All the service for respective class - methods 
-## Repository
-### CRUD operations for respecitive entries
-## Controllers
-### RESTcontrollers for java classes connecting the model and the view.
+### Model
+#### Contains all the Java classes and mapping
+### Services
+#### All the service for respective class - methods 
+### Repository
+#### CRUD operations for respecitive entries
+### Controllers
+#### RESTcontrollers for java classes connecting the model and the view.
