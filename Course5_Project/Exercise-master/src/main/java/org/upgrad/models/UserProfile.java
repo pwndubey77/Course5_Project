@@ -12,19 +12,18 @@ public class UserProfile {
     @GeneratedValue(strategy= GenerationType.IDENTITY)
     private int id;
 
-    @Column
-    private String firstname;
+    @Column(name = "firstname")
+    private String firstName;
     
 
-    @Column
-
-    private String lastname;
+    @Column(name = "lastname")
+    private String lastName;
 
     @Column(name = "aboutme")
     private String aboutMe;
 
-    @Column
-    private Date dob;
+    @Column(name = "dob")
+    private Date dateOfBirth;
 
     @Column(name = "contactnumber")
     private String contactNumber;
@@ -43,19 +42,19 @@ public class UserProfile {
 
 
     public String getFirstname() {
-        return firstname;
+        return firstName;
     }
 
     public void setFirstname(String firstname) {
-        this.firstname = firstname;
+        this.firstName = firstname;
     }
 
     public String getLastname() {
-        return lastname;
+        return lastName;
     }
 
     public void setLastname(String lastname) {
-        this.lastname = lastname;
+        this.lastName = lastname;
     }
 
     public String getAboutMe() {
@@ -67,11 +66,11 @@ public class UserProfile {
     }
 
     public Date getDob() {
-        return dob;
+        return dateOfBirth;
     }
 
     public void setDob(Date dob) {
-        this.dob = dob;
+        this.dateOfBirth = dob;
     }
 
     public String getContactNumber() {

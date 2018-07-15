@@ -24,9 +24,6 @@ public class User {
     @Column
     private String username;
 
-  //  @OneToOne(cascade = CascadeType.ALL,fetch = FetchType.EAGER)
-  //  private UserProfile user_profile;
-
     public User()
     {
 
