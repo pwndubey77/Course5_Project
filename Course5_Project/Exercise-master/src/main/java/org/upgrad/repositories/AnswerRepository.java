@@ -1,3 +1,4 @@
+
 package org.upgrad.repositories;
 
 import org.springframework.data.jpa.repository.Modifying;
@@ -44,4 +45,3 @@ public interface AnswerRepository extends CrudRepository<Answer,String>{
     @Query(nativeQuery = true,value="select * from answer where id=?1")
     Long checkAnswerEntry(int answerId);
 }
-

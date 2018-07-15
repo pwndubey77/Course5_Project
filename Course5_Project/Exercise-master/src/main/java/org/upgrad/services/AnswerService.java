@@ -26,4 +26,5 @@ public interface AnswerService {
     List<Map> getAllAnswersByLikes(int questionId,int userId);
 
     public int checkAnswerEntry(int answerId);
+
 }
