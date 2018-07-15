@@ -22,3 +22,13 @@ https://github.com/Upgradgroupproject/Course5_Project/tree/master/Course5_Projec
 ### Like answer or follow category
 ## Common
 ### check existing questions and categories
+
+
+## Model
+### Contains all the Java classes and mapping
+## Services
+### These are used to call methods 
+## Repository
+### CRUD operations( A repository is usually used to organize a single project.)
+## Controllers
+### RESTcontrollers for java classes  connecting the model and the view.
