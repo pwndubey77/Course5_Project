@@ -93,7 +93,7 @@ public class AnswerController {
             String userRole = userService.getCurrentUserRole((String) session.getAttribute("currUser"));
             int userId = answerService.findUserByAnswerId (answerId);
 
-            if(userId == (userService.getUserID ((String) session.getAttribute("currUser"))) || userRole.equals ("admin")){
+            if(userId == (userService.getUserID ((String) session.getAttribute("currUser"))) || userRole.equalsIgnoreCase ("admin")){
 
                 answerService.editAnswerByAnswerId (answerId,answerBody);
                 return new ResponseEntity<>("Answer with answerId "+answerId + " edited successfully", HttpStatus.OK);
