@@ -52,4 +52,17 @@ public class AnswerServiceImpl implements AnswerService{
     public List<Map> getAllAnswersByLikes(int questionId,int userId) {
         return answerRepository.getAllAnswersByLikes (questionId,userId);
     }
+
+    @Override
+    public int checkAnswerEntry(int answerId) {
+
+        Long validQuestionId = answerRepository.checkAnswerEntry (answerId);
+
+        if (validQuestionId == null) {
+            return 0;
+        } else
+            return validQuestionId.intValue ();
+
+
+    }
 }

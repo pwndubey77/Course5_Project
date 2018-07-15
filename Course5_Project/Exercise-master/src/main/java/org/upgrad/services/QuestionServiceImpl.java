@@ -68,9 +68,9 @@ public class QuestionServiceImpl implements QuestionService {
 
 
     @Override
-    public int checkQuestionEntry(int questionid) {
+    public int checkQuestionEntry(int questionId) {
 
-        Long validQuestionId = questionRepository.checkQuestionEntry (questionid);
+        Long validQuestionId = questionRepository.checkQuestionEntry (questionId);
 
         if (validQuestionId == null) {
             return 0;
