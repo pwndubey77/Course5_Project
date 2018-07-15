@@ -47,4 +47,9 @@ public class Category {
 
     }
 
+    public Category(int id , String title, String description) {
+        this.title = title;
+        this.description = description;
+        this.id =id;
+    }
 }
