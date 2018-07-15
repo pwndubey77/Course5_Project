@@ -20,6 +20,12 @@ public class AdminController {
 
     @Autowired
     UserService userService;
+    /*
+    *This API is to delete the user
+    * The logged in User should be having Admin role
+    * @PathVariable userID:-the userID details to be removed
+    * @HttpSession session:-To Capture current Session
+     */
 
     @DeleteMapping("admin/user/{userId}")
     public ResponseEntity<?> deleteUser(@PathVariable("userId") int userId, HttpSession session)
@@ -30,7 +36,7 @@ public class AdminController {
         {
             String user=session.getAttribute("currUser").toString();
             String role=userService.getCurrentUserRole(user);
-            if(role.equalsIgnoreCase("ADMIN"))
+            if(role!=null && role.equalsIgnoreCase("ADMIN"))
             {
                 userService.deleteUserProfileById(userId);
                 userService.deleteUserById(userId);
@@ -40,6 +46,10 @@ public class AdminController {
                 return new ResponseEntity<>("You do not have rights to delete a user!", HttpStatus.FORBIDDEN);
         }
     }
+    /*
+    *This API is to get all theusers info
+    * This API checks for curent user role . If the role is admin he can access user info
+     */
     @GetMapping("/admin/users/all")
     public ResponseEntity<?> getAllUsers(HttpSession session)
     {
@@ -47,7 +57,7 @@ public class AdminController {
             return new ResponseEntity<>("Please Login first to access this endpoint", HttpStatus.FORBIDDEN);
         String user=session.getAttribute("currUser").toString();
         String role=userService.getCurrentUserRole(user);
-        if(role.equalsIgnoreCase("ADMIN"))
+        if(role!=null && role.equalsIgnoreCase("ADMIN"))
         {
 
             return new ResponseEntity<>(userService.getAllUsers(),HttpStatus.OK);
@@ -58,6 +68,9 @@ public class AdminController {
 
     }
 
+    /*
+    *This API is to create category
+     */
     @PostMapping("/admin/category")
     public ResponseEntity<?> categoriesCreation(@RequestParam  String categoryTitle,@RequestParam String description,HttpSession session)
     {
@@ -65,7 +78,7 @@ public class AdminController {
             return new ResponseEntity<>("Please Login first to access this endpoint", HttpStatus.FORBIDDEN);
         String user=session.getAttribute("currUser").toString();
         String role=userService.getCurrentUserRole(user);
-        if(role.equalsIgnoreCase("ADMIN"))
+        if(role!=null && role.equalsIgnoreCase("ADMIN"))
         {
             userService.addCategory(categoryTitle,description);
             return new ResponseEntity<>(categoryTitle+" Created Successfully!",HttpStatus.OK);
