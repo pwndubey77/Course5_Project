@@ -25,6 +25,9 @@ public interface CategoryRepository extends CrudRepository<Category,Integer> {
     @Query(nativeQuery = true, value="select * from category")
     List<Category> getAllCategories();
 
+    @Query(nativeQuery = true, value="select * from category where id=?1")
+    Long checkCategory(int categoryId);
+
 
 }
 
