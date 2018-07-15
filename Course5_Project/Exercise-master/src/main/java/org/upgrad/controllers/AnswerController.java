@@ -144,8 +144,9 @@ public class AnswerController {
         }
 
         else {
-
-            return new ResponseEntity<>(answerService.getAllAnswersByLikes(questionId), HttpStatus.OK);
+            String user=session.getAttribute("currUser").toString();
+            int userId=userService.getUserID(user);
+            return new ResponseEntity<>(answerService.getAllAnswersByLikes(questionId,userId), HttpStatus.OK);
         }
     }
 
