@@ -2,8 +2,9 @@ package org.upgrad.models;
 
 import javax.persistence.*;
 
-@Table(name = "follow")
+
 @Entity
+@Table(name = "follow")
 public class Follow {
 
     @Id
