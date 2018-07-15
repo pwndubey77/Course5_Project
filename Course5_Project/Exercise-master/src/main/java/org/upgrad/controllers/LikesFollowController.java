@@ -41,10 +41,24 @@ public class LikesFollowController {
             int currentUser = userService.getUserID ((String) session.getAttribute ("currUser"));
             String notificationMessage = ("User with userId " + currentUser + " has liked your answer with answerId " + answerId);
 
-            likeService.addLikesByUserForAnswerId(currentUser,answerId);
-            notificationService.sendNotificationToUser(currentUser, notificationMessage);
 
-            return new ResponseEntity<>("answerId " + answerId + " liked successfully", HttpStatus.OK);
+
+            int checkForUserLike = likeService.checkForUserInLikedByList(currentUser,answerId);
+            if(checkForUserLike > 0){
+
+                return new ResponseEntity<>("You have already liked this answer!", HttpStatus.OK);
+            }
+            else{
+
+                likeService.addLikesByUserForAnswerId(currentUser,answerId);
+
+                notificationService.sendNotificationToUser(currentUser, notificationMessage);
+
+                return new ResponseEntity<>("answerId " + answerId + " liked successfully", HttpStatus.OK);
+
+            }
+
+
         }
     }
 
