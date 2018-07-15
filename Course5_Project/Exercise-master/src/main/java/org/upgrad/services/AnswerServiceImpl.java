@@ -46,4 +46,9 @@ public class AnswerServiceImpl implements AnswerService{
     public void deleteAnswerById(int answerId) {
         answerRepository.deleteAnswerByAnswerId(answerId);
     }
+
+    @Override
+    public List<Answer> getAllAnswersByLikes(int questionId) {
+        return answerRepository.getAllAnswersByLikes (questionId);
+    }
 }

@@ -21,5 +21,7 @@ public interface AnswerService {
     List<Answer> getAllAnswersByUser(int userId);
 
     void deleteAnswerById(int answerId);
+
+    List<Answer> getAllAnswersByLikes(int questionId);
 }
 
