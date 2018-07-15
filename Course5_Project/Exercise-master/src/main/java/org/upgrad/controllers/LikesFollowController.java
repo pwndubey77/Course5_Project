@@ -46,7 +46,7 @@ public class LikesFollowController {
             int checkForUserLike = likeService.checkForUserInLikedByList(currentUser,answerId);
             if(checkForUserLike > 0){
 
-                return new ResponseEntity<>("You have already liked this answer!", HttpStatus.OK);
+                return new ResponseEntity<>("You have already liked this answer!", HttpStatus.FORBIDDEN);
             }
             else{
 
@@ -79,13 +79,13 @@ public class LikesFollowController {
                 return new ResponseEntity<>("You have unliked answer with answerId " +answerId+ " successfully", HttpStatus.OK);
             }
             else{
-                return new ResponseEntity<>("You have not liked this answer", HttpStatus.NOT_FOUND);
+                return new ResponseEntity<>("You have not liked this answer", HttpStatus.FORBIDDEN);
             }
 
         }
     }
 
-    //problem in query get user entry...
+
     @PostMapping("/api/follow/{categoryId}")
     public ResponseEntity<?> addFollowCategory (@RequestParam("categoryId") int categoryId, HttpSession session){
 
@@ -95,10 +95,10 @@ public class LikesFollowController {
 
 
             int currentUser = userService.getUserID ((String) session.getAttribute ("currUser"));
-            int checkForUserFollow = followService.checkForUserInFollowedByList(currentUser);
+            int checkForUserFollow = followService.checkForUserInFollowedByList(currentUser,categoryId);
             if(checkForUserFollow > 0){
 
-                return new ResponseEntity<>("You have already followed this category!", HttpStatus.UNAUTHORIZED);
+                return new ResponseEntity<>("You have already followed this category!", HttpStatus.FORBIDDEN);
           }
             else{
 
@@ -109,7 +109,7 @@ public class LikesFollowController {
         }
     }
 
-    //problem in query get user entry...
+
     @DeleteMapping("/api/unfollow/{categoryId}")
     public ResponseEntity<?> unFollow (@RequestParam("categoryId") int categoryId, HttpSession session){
         if (session.getAttribute("currUser")==null) {
@@ -118,15 +118,15 @@ public class LikesFollowController {
 
 
             int currentUser = userService.getUserID ((String) session.getAttribute ("currUser"));
-            int checkForFollowEntry = followService.checkForUserInFollowedByList(currentUser);
+            int checkForFollowEntry = followService.checkForUserInFollowedByList(currentUser,categoryId);
             if(checkForFollowEntry > 0){
 
-                followService.unfollowCategory(checkForFollowEntry);
+                followService.unFollowCategory(currentUser,categoryId);
                 return new ResponseEntity<>("You have unfollowed the category " +categoryId+ " successfully", HttpStatus.OK);
 
             }
             else{
-                return new ResponseEntity<>("You are curently not following this category", HttpStatus.UNAUTHORIZED);
+                return new ResponseEntity<>("You are curently not following this category", HttpStatus.FORBIDDEN);
             }
 
         }

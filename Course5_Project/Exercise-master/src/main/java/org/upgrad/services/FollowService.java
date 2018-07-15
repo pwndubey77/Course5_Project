@@ -3,9 +3,9 @@ package org.upgrad.services;
 public interface FollowService {
     public int findUserId(int id, int userId);
 
-    int checkForUserInFollowedByList(int currentUser);
+    int checkForUserInFollowedByList(int userId,int categoryId);
 
     void followCategory(int currentUser, int categoryId);
 
-    void unfollowCategory(int checkForFollowEntry);
+    void unFollowCategory(int userId,int categoryId);
 }

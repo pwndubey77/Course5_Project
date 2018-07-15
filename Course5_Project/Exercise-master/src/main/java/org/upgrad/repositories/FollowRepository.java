@@ -18,13 +18,13 @@ public interface FollowRepository extends CrudRepository<Follow,Integer> {
     void followCategory(int userId, int categoryId);
 
 
-    @Query(nativeQuery = true,value="SELECT id from follow where user_id = ?1")
-    int findUserInFollowedByList(int userId);
+    @Query(nativeQuery = true,value="SELECT id from follow where user_id = ?1 AND category_id = ?2")
+    Long getUserInFollowedByList(int userId,int categoryId);
 
+    @Transactional
     @Modifying
-    @Query(nativeQuery = true,value="delete from follow where id=?1")
-    void unfollowCategory(int followId);
-
+    @Query(nativeQuery = true,value="delete from follow where user_id = ?1 AND category_id = ?2")
+    void unFollowCategory(int userId,int categoryId);
 
 
 

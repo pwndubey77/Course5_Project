@@ -19,8 +19,15 @@ public class FollowServiceImpl implements FollowService {
     }
 
     @Override
-    public int checkForUserInFollowedByList(int userId) {
-        return followRepository.findUserInFollowedByList(userId);
+    public int checkForUserInFollowedByList(int userId,int categoryId) {
+
+        Long followId = followRepository.getUserInFollowedByList(userId,categoryId);
+
+        if(followId == null){
+            return 0;
+        }
+        else
+            return followId.intValue ();
     }
 
     @Override
@@ -30,7 +37,7 @@ public class FollowServiceImpl implements FollowService {
     }
 
     @Override
-    public void unfollowCategory(int followEntry) {
-        followRepository.unfollowCategory(followEntry);
+    public void unFollowCategory(int userId,int categoryId) {
+        followRepository.unFollowCategory (userId,categoryId);
     }
 }
