@@ -4,6 +4,10 @@
 
 https://github.com/Upgradgroupproject/Course5_Project/tree/master/Course5_Project/Exercise-master
 
+### Master branch is protected for commits/merge
+ #### min 1 review is needed to commit to master branch
+### Issues are tracked in git with appropriate labeling and assigned accordingly
+
 
 ## APIs
 ### The project provides following APIs
