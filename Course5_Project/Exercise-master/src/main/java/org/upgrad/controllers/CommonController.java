@@ -21,6 +21,16 @@ public class CommonController {
     @Autowired
     CategoryService categoryService;
 
+    /*
+     * API - getAllCategories
+     *
+     *    public API - No Authentication needed
+     *
+     *    categoryService is called to get all categories available with details
+     *
+     *    HttPResponse is returned with category lists
+     *
+     */
     @GetMapping("/api/categories/all")
     public ResponseEntity<?> getAllCategories() {
 
@@ -28,6 +38,16 @@ public class CommonController {
 
     }
 
+    /*
+     * API - getAllQuestions
+     *
+     *    public API - No Authentication needed
+     *
+     *    questionService is called to get all categories available with details
+     *
+     *    HttPResponse is returned with questions
+     *
+     */
     @GetMapping("/api/questions/all")
     public ResponseEntity<?> getAllQuestions() {
 
