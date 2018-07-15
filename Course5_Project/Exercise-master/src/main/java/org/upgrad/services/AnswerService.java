@@ -25,4 +25,3 @@ public interface AnswerService {
 
     List<Map> getAllAnswersByLikes(int questionId,int userId);
 }
-

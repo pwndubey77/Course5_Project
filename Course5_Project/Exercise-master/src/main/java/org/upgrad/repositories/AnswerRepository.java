@@ -41,3 +41,4 @@ public interface AnswerRepository extends CrudRepository<Answer,String>{
     @Query(nativeQuery = true,value ="select ANSWER.ans,ANSWER.date,ANSWER.user_id,ANSWER.question_id,ANSWER.modifiedOn,count(*) from ANSWER,LIKES where ANSWER.ID=LIKES.answer_id and Answer.question_id=(?1) and LIKES.USER_ID=(?2) group by Answer.id order by count(*) desc")
     List<Map> getAllAnswersByLikes(int questionId,int userId);
 }
+
