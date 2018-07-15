@@ -19,7 +19,7 @@ public interface UserService {
     void createUser(String username,String email,String password);
     int getUserID(String username);
     void userProfileDetails(int user_id, String firstName, String lastName, String aboutMe, Date dob, String contactNumber, String country);
-    Iterable<UserProfile> getUserProfile(int id);
+    public Iterable<UserProfile> getUserProfile(int id);
     void deleteUserProfileById(int Id);
     void deleteUserById(int id);
     List<Map> getAllUsers();

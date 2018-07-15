@@ -8,8 +8,9 @@ import org.upgrad.models.User;
 
 import org.upgrad.models.UserProfile;
 
+import org.upgrad.repositories.UserProfileRepository;
 import org.upgrad.repositories.UserRepository;
-import org.upgrad.repositories.User_Profile;
+
 
 import java.util.Date;
 import java.util.List;
@@ -20,8 +21,8 @@ import java.util.Map;
 public class UserServiceImpl implements UserService {
 
     private  UserRepository userRepository;
-    private  User_Profile user_profile;
-    public UserServiceImpl(UserRepository userRepository,User_Profile user_profile) {
+    private UserProfileRepository user_profile;
+    public UserServiceImpl(UserRepository userRepository,UserProfileRepository user_profile) {
         this.userRepository = userRepository;
         this.user_profile=user_profile;
     }
