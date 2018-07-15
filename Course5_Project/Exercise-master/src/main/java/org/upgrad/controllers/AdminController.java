@@ -5,6 +5,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.upgrad.repositories.UserRepository;
+import org.upgrad.services.UserProfileService;
 import org.upgrad.services.UserService;
 
 import javax.servlet.http.HttpSession;
@@ -20,6 +21,9 @@ public class AdminController {
 
     @Autowired
     UserService userService;
+
+    @Autowired
+    UserProfileService userProfileService;
     /*
     *This API is to delete the user
     * The logged in User should be having Admin role
@@ -38,7 +42,7 @@ public class AdminController {
             String role=userService.getCurrentUserRole(user);
             if(role!=null && role.equalsIgnoreCase("ADMIN"))
             {
-                userService.deleteUserProfileById(userId);
+                userProfileService.deleteUserProfileById(userId);
                 userService.deleteUserById(userId);
                 return new ResponseEntity<>("User with userId  "+userId+" deleted Successfully!", HttpStatus.OK);
             }

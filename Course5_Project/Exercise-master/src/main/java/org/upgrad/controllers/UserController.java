@@ -11,6 +11,7 @@ import org.upgrad.models.Notification;
 import org.upgrad.models.User;
 import org.upgrad.repositories.UserRepository;
 import org.upgrad.services.NotificationService;
+import org.upgrad.services.UserProfileService;
 import org.upgrad.services.UserService;
 
 import javax.servlet.http.HttpSession;
@@ -31,6 +32,9 @@ public class UserController {
 
     @Autowired
     NotificationService notificationService;
+
+    @Autowired
+    UserProfileService userProfileService;
 
     /*
       *This Api is to make user signup for the program
@@ -67,7 +71,7 @@ public class UserController {
            int id=userService.getUserID(userName);
            String date=dob;
            Date dob1=new SimpleDateFormat("dd-mm-yyyy").parse(date);
-           userService.userProfileDetails(id,firstName,lastName,aboutMe,dob1,contactNumber,country);
+             userProfileService.userProfileDetails(id,firstName,lastName,aboutMe,dob1,contactNumber,country);
            System.out.println(id);
            return new ResponseEntity<>("User created!", HttpStatus.OK);
          }
@@ -135,9 +139,9 @@ public class UserController {
             return new ResponseEntity<>("Please Login first to access this endpoint",HttpStatus.UNAUTHORIZED);
         else
         {
-          if(userService.getUserProfile(userId).iterator().hasNext())
+          if(userProfileService.getUserProfile(userId).iterator().hasNext())
           {
-              return new ResponseEntity<>(userService.getUserProfile(userId),HttpStatus.OK);
+              return new ResponseEntity<>(userProfileService.getUserProfile(userId),HttpStatus.OK);
           }
           else
               return new ResponseEntity<>("User Profile not found!",HttpStatus.FORBIDDEN);
