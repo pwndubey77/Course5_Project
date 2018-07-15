@@ -78,12 +78,12 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public String findUserPassword(String username) {
-        return null;
+        return userRepository.findUserPassword(username);
     }
 
     @Override
     public String findUserRole(String username) {
-        return null;
+        return userRepository.findUserRole(username);
     }
 
 }
