@@ -67,26 +67,19 @@ public class QuestionServiceImpl implements QuestionService {
     }
 
 
-    /*
     @Override
-    public Question findQuestionById(int questionid) {
-        return questionRepository.readQuestion (questionid);
+    public int checkQuestionEntry(int questionid) {
+
+        Long validQuestionId = questionRepository.checkQuestionEntry (questionid);
+
+        if (validQuestionId == null) {
+            return 0;
+        } else
+            return validQuestionId.intValue ();
+
+
     }
 
-
-
-
-    @Override
-    public void addQuestionValues(int id,String body, int userId){ questionRepository.addQuestionValues(id,body,userId);}
-
-    @Override
-    public Iterable<Question> getAll() {
-        return questionRepository.findAll();
-    }
-
-
-
-    */
 }
 
 

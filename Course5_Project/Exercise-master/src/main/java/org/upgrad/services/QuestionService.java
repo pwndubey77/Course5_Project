@@ -26,6 +26,7 @@ public interface QuestionService {
 
     List<Question> getAllQuestions();
 
+    public int checkQuestionEntry(int questionid);
 
     /*
     Iterable<Question> getAll();
