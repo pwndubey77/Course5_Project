@@ -51,17 +51,20 @@ public class AnswerController {
 
         else {
 
+            if(questionService.checkQuestionEntry (questionId) > 0){
+                int userId = userService.getUserID((String) session.getAttribute ("currUser"));
 
-            int userId = userService.getUserID((String) session.getAttribute ("currUser"));
+                String notificationMessage = ("User with userId " + userId + " has answered your question with questionId " + questionId);
 
-            String notificationMessage = ("User with userId " + userId + " has answered your question with questionId " + questionId);
+                answerService.addAnswer (answerBody,questionService.findUserByQuestionId (questionId),questionId);
 
-            answerService.addAnswer (answerBody,questionService.findUserByQuestionId (questionId),questionId);
+                notificationService.sendNotificationToUser (userId,notificationMessage);
 
-            notificationService.sendNotificationToUser (userId,notificationMessage);
-
-            return new ResponseEntity<>("Answer to questionId "+questionId + " added successfully", HttpStatus.OK);
-
+                return new ResponseEntity<>("Answer to questionId "+questionId + " added successfully", HttpStatus.OK);
+            }
+            else{
+                return new ResponseEntity<>("There is no Question with questionId " + questionId, HttpStatus.NOT_FOUND);
+            }
         }
     }
 
@@ -90,22 +93,28 @@ public class AnswerController {
 
         else {
 
-            String userRole = userService.getCurrentUserRole((String) session.getAttribute("currUser"));
-            int userId = answerService.findUserByAnswerId (answerId);
+            if(answerService.checkAnswerEntry (answerId) > 0){
+                String userRole = userService.getCurrentUserRole((String) session.getAttribute("currUser"));
+                int userId = answerService.findUserByAnswerId (answerId);
 
-            if(userId == (userService.getUserID ((String) session.getAttribute("currUser"))) || userRole.equalsIgnoreCase ("admin")){
+                if(userId == (userService.getUserID ((String) session.getAttribute("currUser"))) || userRole.equalsIgnoreCase ("admin")){
 
-                answerService.editAnswerByAnswerId (answerId,answerBody);
-                return new ResponseEntity<>("Answer with answerId "+answerId + " edited successfully", HttpStatus.OK);
+                    answerService.editAnswerByAnswerId (answerId,answerBody);
+                    return new ResponseEntity<>("Answer with answerId "+answerId + " edited successfully", HttpStatus.OK);
+                }
+
+                else{
+                    return new ResponseEntity<>("You do not have rights to edit this answer!", HttpStatus.UNAUTHORIZED);
+                }
             }
-
             else{
-                return new ResponseEntity<>("You do not have rights to edit this answer!", HttpStatus.UNAUTHORIZED);
-            }
-
+                    return new ResponseEntity<>("There is no Answer with answerId " + answerId, HttpStatus.NOT_FOUND);
+                }
 
         }
-    }
+
+}
+
 
     /*
      * API - getAllAnswersToQuestion
@@ -130,7 +139,12 @@ public class AnswerController {
         }
 
         else {
-            return new ResponseEntity<>(answerService.getAllAnswersByQuestionId(questionId), HttpStatus.OK);
+            if(questionService.checkQuestionEntry (questionId) > 0){
+                return new ResponseEntity<>(answerService.getAllAnswersByQuestionId(questionId), HttpStatus.OK);
+            }
+            else{
+                return new ResponseEntity<>("There is no Question with questionId " + questionId, HttpStatus.NOT_FOUND);
+            }
         }
     }
 
@@ -184,17 +198,24 @@ public class AnswerController {
 
         else {
 
-            String userRole = userService.getCurrentUserRole((String) session.getAttribute("currUser"));
-            int userId = answerService.findUserByAnswerId (answerId);
+            if(answerService.checkAnswerEntry (answerId) > 0){
+                String userRole = userService.getCurrentUserRole((String) session.getAttribute("currUser"));
+                int userId = answerService.findUserByAnswerId (answerId);
 
-            if(userId == (userService.getUserID ((String) session.getAttribute("currUser"))) || userRole.equalsIgnoreCase ("admin")){
-                answerService.deleteAnswerById (answerId);
-                return new ResponseEntity<>("Answer with answerId " + answerId + " deleted successfully", HttpStatus.OK);
+                if(userId == (userService.getUserID ((String) session.getAttribute("currUser"))) || userRole.equalsIgnoreCase ("admin")){
+                    answerService.deleteAnswerById (answerId);
+                    return new ResponseEntity<>("Answer with answerId " + answerId + " deleted successfully", HttpStatus.OK);
+                }
+
+                else{
+                    return new ResponseEntity<>("You do not have rights to delete this answer!", HttpStatus.UNAUTHORIZED);
+                }
             }
 
             else{
-                return new ResponseEntity<>("You do not have rights to delete this answer!", HttpStatus.UNAUTHORIZED);
+                return new ResponseEntity<>("There is no Answer with answerId " + answerId, HttpStatus.NOT_FOUND);
             }
+
 
 
         }
@@ -225,9 +246,15 @@ public class AnswerController {
 
         else {
 
-            String user=session.getAttribute("currUser").toString();
-            int userId=userService.getUserID(user);
-            return new ResponseEntity<>(answerService.getAllAnswersByLikes(questionId,userId), HttpStatus.OK);
+            if(questionService.checkQuestionEntry (questionId) > 0){
+                String user=session.getAttribute("currUser").toString();
+                int userId=userService.getUserID(user);
+                return new ResponseEntity<>(answerService.getAllAnswersByLikes(questionId,userId), HttpStatus.OK);
+            }
+            else{
+                return new ResponseEntity<>("There is no Question with questionId " + questionId, HttpStatus.NOT_FOUND);
+            }
+
         }
     }
 

@@ -34,6 +34,11 @@ public class CategoryServiceImpl implements CategoryService {
         return categoryRepository.getAllCategories();
     }
 
+    @Override
+    public Long checkCategory(int categoryId) {
+        return categoryRepository.checkCategory (categoryId);
+    }
+
    /* @Override
     public Set<Integer> getQuestionByCategory(int categoryId) {
         return categoryRepository.getQuestionsByCategoryId(categoryId);

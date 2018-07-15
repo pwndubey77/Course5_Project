@@ -49,14 +49,25 @@ public class QuestionController {
     public ResponseEntity<?> createQuestion(@RequestParam("content") String body,@RequestParam("categoryId") Set<Integer> categories, HttpSession session) {
 
         if (session.getAttribute("currUser")==null) {
-                return new ResponseEntity<>("Please Login first to access this endpoint!", HttpStatus.UNAUTHORIZED);
+            return new ResponseEntity<>("Please Login first to access this endpoint!", HttpStatus.UNAUTHORIZED);
         }
 
         else {
 
-                questionService.createQuestion (body,categories,userService.getUserID ((String) session.getAttribute("currUser")));
+            Long checkCategory = 0L;
 
-                return new ResponseEntity<>("Question added successfully", HttpStatus.OK);
+            for(int category : categories) {
+
+                checkCategory =  categoryService.checkCategory (category);
+                if(checkCategory == null){
+                    return new ResponseEntity<>("There is no category with categoryId " + category+" Please enter correct categories", HttpStatus.NOT_FOUND);
+                }
+            }
+
+
+            questionService.createQuestion (body,categories,userService.getUserID ((String) session.getAttribute("currUser")));
+
+            return new ResponseEntity<>("Question added successfully", HttpStatus.OK);
 
         }
     }
@@ -110,19 +121,22 @@ public class QuestionController {
 
         else {
 
-            String userRole = userService.getCurrentUserRole((String) session.getAttribute("currUser"));
+            if(questionService.checkQuestionEntry (questionId) > 0){
+                String userRole = userService.getCurrentUserRole((String) session.getAttribute("currUser"));
 
-            int userId = questionService.findUserByQuestionId (questionId);
-            if(userId == (userService.getUserID ((String) session.getAttribute("currUser"))) || userRole.equalsIgnoreCase ("admin")){
-                questionService.deleteQuestionById (questionId);
-                return new ResponseEntity<>("Question with questionId " + questionId + " deleted successfully", HttpStatus.OK);
+                int userId = questionService.findUserByQuestionId (questionId);
+                if(userId == (userService.getUserID ((String) session.getAttribute("currUser"))) || userRole.equalsIgnoreCase ("admin")){
+                    questionService.deleteQuestionById (questionId);
+                    return new ResponseEntity<>("Question with questionId " + questionId + " deleted successfully", HttpStatus.OK);
+                }
+
+                else{
+                    return new ResponseEntity<>("You do not have rights to delete this question!", HttpStatus.FORBIDDEN);
+                }
             }
-
             else{
-                return new ResponseEntity<>("You do not have rights to delete this question!", HttpStatus.FORBIDDEN);
+                return new ResponseEntity<>("There is no Question with questionId " + questionId, HttpStatus.NOT_FOUND);
             }
-
-
         }
 
     }
