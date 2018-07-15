@@ -65,7 +65,7 @@ public class LikesFollowController {
                 return new ResponseEntity<>("You have unliked answer with answerId " +answerId+ " successfully", HttpStatus.OK);
             }
             else{
-                return new ResponseEntity<>("You have not liked this answer", HttpStatus.UNAUTHORIZED);
+                return new ResponseEntity<>("You have not liked this answer", HttpStatus.NOT_FOUND);
             }
 
         }
