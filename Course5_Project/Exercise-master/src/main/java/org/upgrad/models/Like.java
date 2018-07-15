@@ -2,8 +2,9 @@ package org.upgrad.models;
 
 import javax.persistence.*;
 
-@Table(name = "likes")
+
 @Entity
+@Table(name = "likes")
 public class Like {
     @Id
     @Column(columnDefinition = "serial")

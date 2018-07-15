@@ -3,7 +3,9 @@ package org.upgrad.models;
 import javax.persistence.*;
 import java.util.Date;
 
-@Entity(name="notification")
+
+@Entity
+@Table(name="notification")
 public class Notification {
 
     @Id

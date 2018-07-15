@@ -3,7 +3,9 @@ package org.upgrad.models;
 import javax.persistence.*;
 import java.util.Date;
 
-@Entity(name="answer")
+
+@Entity
+@Table(name="answer")
 public class Answer {
 
     @Id
@@ -15,17 +17,16 @@ public class Answer {
     private String ans;
 
     @Column(name = "user_id")
-    private int user_id;
+    private int userId;
 
     @Column(name = "question_id")
-    private int question_id;
+    private int questionId;
 
     @Column(name = "date")
     private Date date = new Date();
 
     @Column(name = "modifiedon")
-    private Date modifiedon = new Date();
-
+    private Date modifiedOn = new Date();
 
     public int getId() {
         return id;
@@ -35,44 +36,44 @@ public class Answer {
         this.id = id;
     }
 
-    public String getAnswerBody() {
+    public String getAns() {
         return ans;
     }
 
-    public void setAnswerBody(String answerBody) {
-        this.ans = answerBody;
+    public void setAns(String ans) {
+        this.ans = ans;
     }
 
     public int getUserId() {
-        return user_id;
+        return userId;
     }
 
     public void setUserId(int userId) {
-        this.user_id = userId;
+        this.userId = userId;
     }
 
     public int getQuestionId() {
-        return question_id;
+        return questionId;
     }
 
     public void setQuestionId(int questionId) {
-        this.question_id = questionId;
+        this.questionId = questionId;
     }
 
-    public Date getDateCreated() {
+    public Date getDate() {
         return date;
     }
 
-    public void setDateCreated(Date dateCreated) {
-        this.date = dateCreated;
+    public void setDate(Date date) {
+        this.date = date;
     }
 
-    public Date getModificationDate() {
-        return modifiedon;
+    public Date getModifiedOn() {
+        return modifiedOn;
     }
 
-    public void setModificationDate(Date modificationDate) {
-        this.modifiedon = modificationDate;
+    public void setModifiedOn(Date modifiedOn) {
+        this.modifiedOn = modifiedOn;
     }
 
     public Answer() { }
