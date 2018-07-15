@@ -54,6 +54,17 @@ public class QuestionController {
 
         else {
 
+            Long checkCategory = 0L;
+
+            for(int category : categories) {
+
+                checkCategory =  categoryService.checkCategory (category);
+                if(checkCategory == null){
+                    return new ResponseEntity<>("There is no category with categoryId " + category+" Please enter correct categories", HttpStatus.NOT_FOUND);
+                }
+            }
+
+
             questionService.createQuestion (body,categories,userService.getUserID ((String) session.getAttribute("currUser")));
 
             return new ResponseEntity<>("Question added successfully", HttpStatus.OK);
