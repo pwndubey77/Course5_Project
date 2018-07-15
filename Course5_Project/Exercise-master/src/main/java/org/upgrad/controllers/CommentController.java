@@ -4,7 +4,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.upgrad.repositories.CommentRepository;
 import org.upgrad.services.AnswerService;
 import org.upgrad.services.CommentService;
 import org.upgrad.services.NotificationService;
@@ -135,7 +134,7 @@ public class CommentController {
                 commentService.deleteCommentByCommentId(commentId);
                 return new ResponseEntity<>("comment with commentId " + commentId + " deleted successfully", HttpStatus.OK);
             } else {
-                return new ResponseEntity<>("You do not have rights to delete this comment!", HttpStatus.FORBIDDEN);
+                return new ResponseEntity<>("You do not have rights to delete this comment!", HttpStatus.UNAUTHORIZED);
             }
 
         }
@@ -150,7 +149,7 @@ public class CommentController {
      * -- Session details are checked for authentication - if fails -> Unauthorized - goes to return httpStatus,
      *                                                   - if pass -> call respective services
      *
-     * -- answerService called to modify the  entry with commentId , commentBody to add update in database
+     * -- commentService called to read the all comments entry with answerId
      *
      * -- return response body + HttpStatus
      *

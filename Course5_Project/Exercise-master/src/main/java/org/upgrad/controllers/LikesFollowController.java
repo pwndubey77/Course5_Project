@@ -69,7 +69,7 @@ public class LikesFollowController {
 
                 notificationService.sendNotificationToUser(currentUser, notificationMessage);
 
-                return new ResponseEntity<>("answerId " + answerId + " liked successfully", HttpStatus.OK);
+                return new ResponseEntity<>("answerId " + answerId + " liked successfully", HttpStatus.CREATED);
 
             }
 
@@ -109,7 +109,7 @@ public class LikesFollowController {
                 return new ResponseEntity<>("You have unliked answer with answerId " +answerId+ " successfully", HttpStatus.OK);
             }
             else{
-                return new ResponseEntity<>("You have not liked this answer", HttpStatus.FORBIDDEN);
+                return new ResponseEntity<>("You have not liked this answer", HttpStatus.CREATED);
             }
 
         }
@@ -148,7 +148,7 @@ public class LikesFollowController {
             else{
 
                 followService.followCategory(currentUser,categoryId);
-                return new ResponseEntity<>("category "+categoryId+" followed successfully", HttpStatus.OK);
+                return new ResponseEntity<>("category "+categoryId+" followed successfully", HttpStatus.CREATED);
             }
 
         }
