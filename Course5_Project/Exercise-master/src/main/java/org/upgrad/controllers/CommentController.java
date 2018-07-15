@@ -29,8 +29,23 @@ public class CommentController {
     AnswerService answerService;
 
 
+    /*
+     * API - giveComment
+     *
+     * @parameter "comment" and "answerId"is provided by user and,session (HttpSession ) gives details of session
+     *
+     * -- Session details are checked for authentication - if fails -> Unauthorized - goes to return httpStatus,
+     *                                                       - if pass -> call respective services ,
+     *
+     * -- commentService is called to add entry with user,comment and answerId to add entries in database
+     *
+     * -- notification Services called to update notification for user who posted the answer
+     *
+     * -- return response body + HttpStatus
+     *
+     */
     @PostMapping("/api/comment")
-    public ResponseEntity<?> giveComment(@RequestParam("comment") String commentbody, @RequestParam("answerId") int answerId, HttpSession session) {
+    public ResponseEntity<?> giveComment(@RequestParam("comment") String commentBody, @RequestParam("answerId") int answerId, HttpSession session) {
 
         if (session.getAttribute("currUser") == null) {
             return new ResponseEntity<>("Please Login first to access this endpoint!", HttpStatus.UNAUTHORIZED);
@@ -41,7 +56,7 @@ public class CommentController {
 
             String notificationMessage = ("User with userId " + userId + " has commented on your answer with answerId " + answerId);
 
-            commentService.giveComment(commentbody, userId, answerId);
+            commentService.giveComment(commentBody, userId, answerId);
 
             notificationService.sendNotificationToUser(userId, notificationMessage);
 
@@ -50,6 +65,19 @@ public class CommentController {
         }
     }
 
+    /*
+     * API - editComment
+     *
+     * @parameter "commentId" and "commentBody"is provided by user and,session (HttpSession ) gives details of session
+     *
+     * -- Session details are checked for authentication - if fails -> Unauthorized - goes to return httpStatus,
+     *                                                   - if pass -> call user service to authenticate user is admin/user (who added the comment) ,
+     *
+     * -- answerService called to modify the  entry with commentId , commentBody to add update in database
+     *
+     * -- return response body + HttpStatus
+     *
+     */
     @PutMapping("/api/comment/{commentId}")
     public ResponseEntity<?> editComment(@RequestParam("commentId") int commentId,@RequestParam("comment") String commentBody, HttpSession session) {
 
@@ -63,7 +91,7 @@ public class CommentController {
 
             int userId = userService.getUserID((String) session.getAttribute("currUser"));
 
-            if(userId == (commentService.getUserByCommentId (commentId)) || userRole.equals ("admin")){
+            if(userId == (commentService.getUserByCommentId (commentId)) || userRole.equalsIgnoreCase ("admin")){
 
                 commentService.editCommentByCommentId (commentId,commentBody);
 
@@ -71,13 +99,27 @@ public class CommentController {
             }
 
             else{
-                return new ResponseEntity<>("You do not have rights to edit this comment!", HttpStatus.UNAUTHORIZED);
+                return new ResponseEntity<>("You do not have rights to edit this comment!", HttpStatus.FORBIDDEN);
             }
 
 
         }
     }
 
+
+    /*
+     * API - deleteComment
+     *
+     * @parameter "commentId" and "commentBody"is provided by user and,session (HttpSession ) gives details of session
+     *
+     * -- Session details are checked for authentication - if fails -> Unauthorized - goes to return httpStatus,
+     *                                                   - if pass -> call user service to authenticate user is admin/user (who added the comment) ,
+     *
+     * -- answerService called to modify the  entry with commentId , commentBody to add update in database
+     *
+     * -- return response body + HttpStatus
+     *
+     */
 
     @DeleteMapping("/api/comment/{commentId}")
     public ResponseEntity<?> deleteComment(@RequestParam("commentId") int commentId, HttpSession session) {
@@ -89,17 +131,30 @@ public class CommentController {
             String userRole = userService.getCurrentUserRole((String) session.getAttribute("currUser"));
             int userId = commentService.getUserByCommentId(commentId);
 
-            if (userId == (userService.getUserID((String) session.getAttribute("currUser"))) || userRole.equals ("admin")) {
+            if (userId == (userService.getUserID((String) session.getAttribute("currUser"))) || userRole.equalsIgnoreCase ("admin")) {
                 commentService.deleteCommentByCommentId(commentId);
                 return new ResponseEntity<>("comment with commentId " + commentId + " deleted successfully", HttpStatus.OK);
             } else {
-                return new ResponseEntity<>("You do not have rights to delete this comment!", HttpStatus.UNAUTHORIZED);
+                return new ResponseEntity<>("You do not have rights to delete this comment!", HttpStatus.FORBIDDEN);
             }
 
         }
 
     }
 
+    /*
+     * API - getAllCommentsByAnswer
+     *
+     * @parameter "answerId" is provided by user and,session (HttpSession ) gives details of session
+     *
+     * -- Session details are checked for authentication - if fails -> Unauthorized - goes to return httpStatus,
+     *                                                   - if pass -> call respective services
+     *
+     * -- answerService called to modify the  entry with commentId , commentBody to add update in database
+     *
+     * -- return response body + HttpStatus
+     *
+     */
     @GetMapping("/api/comment/all/{answerId}")
     public ResponseEntity<?> getAllCommentsByAnswer(@RequestParam("answerId") int answerId, HttpSession session) {
 
