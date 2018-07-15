@@ -93,22 +93,28 @@ public class AnswerController {
 
         else {
 
-            String userRole = userService.getCurrentUserRole((String) session.getAttribute("currUser"));
-            int userId = answerService.findUserByAnswerId (answerId);
+            if(answerService.checkAnswerEntry (answerId) > 0){
+                String userRole = userService.getCurrentUserRole((String) session.getAttribute("currUser"));
+                int userId = answerService.findUserByAnswerId (answerId);
 
-            if(userId == (userService.getUserID ((String) session.getAttribute("currUser"))) || userRole.equalsIgnoreCase ("admin")){
+                if(userId == (userService.getUserID ((String) session.getAttribute("currUser"))) || userRole.equalsIgnoreCase ("admin")){
 
-                answerService.editAnswerByAnswerId (answerId,answerBody);
-                return new ResponseEntity<>("Answer with answerId "+answerId + " edited successfully", HttpStatus.OK);
+                    answerService.editAnswerByAnswerId (answerId,answerBody);
+                    return new ResponseEntity<>("Answer with answerId "+answerId + " edited successfully", HttpStatus.OK);
+                }
+
+                else{
+                    return new ResponseEntity<>("You do not have rights to edit this answer!", HttpStatus.UNAUTHORIZED);
+                }
             }
-
             else{
-                return new ResponseEntity<>("You do not have rights to edit this answer!", HttpStatus.UNAUTHORIZED);
-            }
-
+                    return new ResponseEntity<>("There is no Answer with answerId " + answerId, HttpStatus.NOT_FOUND);
+                }
 
         }
-    }
+
+}
+
 
     /*
      * API - getAllAnswersToQuestion
