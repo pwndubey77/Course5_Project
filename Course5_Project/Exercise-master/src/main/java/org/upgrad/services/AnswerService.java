@@ -4,6 +4,7 @@ import org.springframework.stereotype.Service;
 import org.upgrad.models.Answer;
 
 import java.util.List;
+import java.util.Map;
 
 
 public interface AnswerService {
@@ -22,6 +23,5 @@ public interface AnswerService {
 
     void deleteAnswerById(int answerId);
 
-    List<Answer> getAllAnswersByLikes(int questionId);
+    List<Map> getAllAnswersByLikes(int questionId,int userId);
 }
-

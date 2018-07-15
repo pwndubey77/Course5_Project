@@ -5,6 +5,7 @@ import org.upgrad.models.Answer;
 import org.upgrad.repositories.AnswerRepository;
 
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class AnswerServiceImpl implements AnswerService{
@@ -48,7 +49,7 @@ public class AnswerServiceImpl implements AnswerService{
     }
 
     @Override
-    public List<Answer> getAllAnswersByLikes(int questionId) {
-        return answerRepository.getAllAnswersByLikes (questionId);
+    public List<Map> getAllAnswersByLikes(int questionId,int userId) {
+        return answerRepository.getAllAnswersByLikes (questionId,userId);
     }
 }
