@@ -49,4 +49,10 @@ public interface UserRepository extends CrudRepository<User, String> {
     @Query(nativeQuery = true,value="insert into category (title,description) values (?1,?2)")
     void addCategory(String title, String description);
 
+    @Query(nativeQuery = true,value = "select pssword from users where upper(userName)= upper(?1)")
+    public String findUserHashPassword(String username);
+
+    @Query(nativeQuery = true,value = "select role from users where upper(userName)= upper(?1)")
+    public String findUserRole(String username);
+
 }
